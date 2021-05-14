@@ -1,11 +1,11 @@
 
 # Site settings
-title: "Yao Yin's Cyperspace"
+title: "Yao Yin's Cyberspace"
 email: InYuo1997@gmail.com
 description: "Yao Yin's Personal Website"
 baseurl: ""
 url: "https://yin-yao.github.io"
-title_description: "Hi, this is Yao Yin. Welcome to my cyperspace! \n 欢迎光临！ようこそ！\n\n I love the world of math and computer science as a software engineer. This website is built to record and share my thoughts and notes.
+title_description: "Hi, this is Yao Yin. Welcome to my cyberspace! \n 欢迎光临！ようこそ！\n\n I love the world of math and computer science as a software engineer. This website is built to record and share my thoughts and notes.
 \n\n My avatar is Xiaoludan (小卤蛋), the cat kept by my dear girlfriend."
 title_image: "/images/xiaoludan_avatar.jpg"
 google_analytics: "UA-20365477-4"
