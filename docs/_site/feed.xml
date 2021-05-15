@@ -1,231 +1,240 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Yao Yin's Cyperspace</title>
+    <title>Yao Yin's Cyberspace</title>
     <description>Yao Yin's Personal Website</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 14 May 2021 09:41:00 +0900</pubDate>
-    <lastBuildDate>Fri, 14 May 2021 09:41:00 +0900</lastBuildDate>
+    <pubDate>Sat, 15 May 2021 10:17:55 +0900</pubDate>
+    <lastBuildDate>Sat, 15 May 2021 10:17:55 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
-        <title>Welcome to Carte Noire</title>
-        <description>&lt;p&gt;Welcome to Carte Noire.&lt;/p&gt;
+        <title>My Journey in Computer Science and Math</title>
+        <description>&lt;p&gt;Just as I writed in &lt;a href=&quot;2021-05-14-about-me.md&quot;&gt;About Me&lt;/a&gt;, I love the world of CS and math and I taught myself bits of knowledge in these fields and use them to pass the entrance exam of UTokyo and to be hired as a software engineer. This post is about what I did and what I will do in the future.&lt;/p&gt;
 
-&lt;p&gt;Carte Noire began as a new theme for &lt;a href=&quot;http://www.jacobtomlinson.co.uk/&quot;&gt;my personal blog&lt;/a&gt;, but has now taken
-on a life of its own as a free theme for Jekyll.&lt;/p&gt;
+&lt;p&gt;I got my bachelor’s degree in pharmacy but I decided to quit that in the 4th year of my undergraduate studies. Thus I have no extra time to persue anthor bacholer’s degree in computer science/math/software engineering. With generous seggestions from one of my good friends who is a Google software engineer now, I decided to learn open source computer science courses.&lt;/p&gt;
 
-&lt;p&gt;The theme has been designed with simplicity and readability in mind. It makes
-use of third party services such as Disqus ad AddThis to ensure the blog has
-all the features you would expect from a dynamic application such as Wordpress
-but with the hosting and maintenance simplicity of Jekyll.&lt;/p&gt;
+&lt;hr /&gt;
 
-&lt;p&gt;Please use/copy/share Carte Noire!&lt;/p&gt;
+&lt;h2 id=&quot;201831--2019331&quot;&gt;2018.3.1 ~ 2019.3.31&lt;/h2&gt;
 
-</description>
-        <pubDate>Tue, 24 Mar 2015 00:31:19 +0900</pubDate>
-        <link>http://localhost:4000/jekyll/2015/03/24/welcome-to-carte-noir/</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/2015/03/24/welcome-to-carte-noir/</guid>
-        
-        <category>welcome</category>
-        
-        <category>to</category>
-        
-        <category>carte</category>
-        
-        <category>noire</category>
-        
-        
-        <category>jekyll</category>
-        
-      </item>
-    
-      <item>
-        <title>Carte Noire in Action</title>
-        <description>&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt; - This article is a derivative of &lt;a href=&quot;http://pixyll.com/jekyll/pixyll/2014/06/10/see-pixyll-in-action/&quot;&gt;“See pixyll in action”&lt;/a&gt;, taken from the lovely jekyll theme &lt;a href=&quot;http://pixyll.com/&quot;&gt;pixyll&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The entrance examination of computational biology department in UTokyo needs calculus, linear algebra, graph theory, data structures, algorithms, probability, statistics and stochastic processes. In order to pass the examination, I spent most of time on math courses.&lt;/p&gt;
 
-&lt;p&gt;All links are easy to &lt;a href=&quot;#&quot;&gt;locate and discern&lt;/a&gt;, yet don’t detract from the harmony
-of a paragraph. The &lt;em&gt;same&lt;/em&gt; goes for italics and &lt;strong&gt;bold&lt;/strong&gt; elements. Even the the strikeout
-works if &lt;del&gt;for some reason you need to update your post&lt;/del&gt;. For consistency’s sake,
-&lt;ins&gt;The same goes for insertions&lt;/ins&gt;, of course.&lt;/p&gt;
-
-&lt;h3 id=&quot;code-with-syntax-highlighting&quot;&gt;Code, with syntax highlighting&lt;/h3&gt;
-
-&lt;p&gt;Code blocks use the &lt;a href=&quot;https://noahfrederick.com/log/lion-terminal-theme-peppermint/&quot;&gt;peppermint&lt;/a&gt; theme.&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Awesome&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;ActiveRecord&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;Base&lt;/span&gt;
-  &lt;span class=&quot;kp&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;EvenMoreAwesome&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;validates_presence_of&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:something&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;validates&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;email_format: &lt;/span&gt;&lt;span class=&quot;kp&quot;&gt;true&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;initialize&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kp&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;email&lt;/span&gt;
-    &lt;span class=&quot;nb&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;name&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;style&amp;gt;body&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;500px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;}&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;/style&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;application/javascript&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;}&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;nt&quot;&gt;&amp;lt;p&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;checked&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;title&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'title'&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt;Title&lt;span class=&quot;nt&quot;&gt;&amp;lt;/p&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- here goes the rest of the page --&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;nt&quot;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h1 id=&quot;headings&quot;&gt;Headings!&lt;/h1&gt;
-
-&lt;p&gt;They’re responsive, and well-proportioned (in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;padding&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;line-height&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;margin&lt;/code&gt;, and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;font-size&lt;/code&gt;).&lt;/p&gt;
-
-&lt;h5 id=&quot;they-draw-the-perfect-amount-of-attention&quot;&gt;They draw the perfect amount of attention&lt;/h5&gt;
-
-&lt;p&gt;This allows your content to have the proper informational and contextual hierarchy. Yay.&lt;/p&gt;
-
-&lt;h3 id=&quot;there-are-lists-too&quot;&gt;There are lists, too&lt;/h3&gt;
+&lt;h3 id=&quot;calculus&quot;&gt;Calculus&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Apples&lt;/li&gt;
-  &lt;li&gt;Oranges&lt;/li&gt;
-  &lt;li&gt;Potatoes&lt;/li&gt;
-  &lt;li&gt;Milk&lt;/li&gt;
+  &lt;li&gt;Calculus courses in Nankai University&lt;/li&gt;
+  &lt;li&gt;Review it by &lt;a href=&quot;https://book.douban.com/subject/2025549/&quot;&gt;this book&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;ol&gt;
-  &lt;li&gt;Mow the lawn&lt;/li&gt;
-  &lt;li&gt;Feed the dog&lt;/li&gt;
-  &lt;li&gt;Dance&lt;/li&gt;
-&lt;/ol&gt;
+&lt;h3 id=&quot;linear-algebra&quot;&gt;Linear Algebra&lt;/h3&gt;
 
-&lt;h3 id=&quot;images-look-great-too&quot;&gt;Images look great, too&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/&quot;&gt;MIT 18.06&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Practice problems from &lt;a href=&quot;https://www.amazon.co.jp/%E6%BC%94%E7%BF%92-%E5%A4%A7%E5%AD%A6%E9%99%A2%E5%85%A5%E8%A9%A6%E5%95%8F%E9%A1%8C-%E6%95%B0%E5%AD%A6-%E5%A7%AB%E9%87%8E-%E4%BF%8A%E4%B8%80/dp/478191361X&quot;&gt;the little yellow book i&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Read some chapters from &lt;a href=&quot;https://linear.axler.net/&quot;&gt;&lt;em&gt;Linear Algebra Done Right&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/DMCHDqF.jpg&quot; alt=&quot;Thumper&quot; /&gt;&lt;/p&gt;
+&lt;h3 id=&quot;differential-equations&quot;&gt;Differential Equations&lt;/h3&gt;
 
-&lt;h3 id=&quot;stylish-blockquotes-included&quot;&gt;Stylish blockquotes included&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://ocw.mit.edu/courses/mathematics/18-03-differential-equations-spring-2010/&quot;&gt;MIT 18.03&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;You can use the markdown quote syntax, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;gt;&lt;/code&gt; for simple quotes.&lt;/p&gt;
+&lt;h3 id=&quot;probability&quot;&gt;Probability&lt;/h3&gt;
 
-&lt;blockquote&gt;
-  &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse quis porta mauris.&lt;/p&gt;
-&lt;/blockquote&gt;
+&lt;ul&gt;
+  &lt;li&gt;Coursera courses (&lt;a href=&quot;https://zh.coursera.org/learn/prob1&quot;&gt;i&lt;/a&gt;, &lt;a href=&quot;https://zh.coursera.org/learn/prob2&quot;&gt;ii&lt;/a&gt;)&lt;/li&gt;
+  &lt;li&gt;First half of &lt;a href=&quot;https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/&quot;&gt;MIT 6.041&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Practice problems from &lt;a href=&quot;https://www.amazon.co.jp/-/en/%E5%A7%AB%E9%87%8E-%E4%BF%8A%E4%B8%80/dp/4781913717/ref=pd_lpo_14_t_0/356-4596967-6851831?_encoding=UTF8&amp;amp;pd_rd_i=4781913717&amp;amp;pd_rd_r=0a1217f4-6984-4c97-a56e-5da767cebea1&amp;amp;pd_rd_w=c2JPG&amp;amp;pd_rd_wg=VzFDT&amp;amp;pf_rd_p=dc0198fa-c371-4787-b1e2-96ed0e4d45e8&amp;amp;pf_rd_r=0XRTYSGETW6N8X5W01JN&amp;amp;psc=1&amp;amp;refRID=0XRTYSGETW6N8X5W01JN&quot;&gt;the little yellow book ii&lt;/a&gt; and homeworks of &lt;a href=&quot;https://projects.iq.harvard.edu/stat110/home&quot;&gt;Harvard STAT 110&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h3 id=&quot;latex-support&quot;&gt;LaTeX support&lt;/h3&gt;
+&lt;h3 id=&quot;statistics&quot;&gt;Statistics&lt;/h3&gt;
 
-&lt;p&gt;The default math delimiters are $$. Hence &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$$ E = m \cdot c^2 $$&lt;/code&gt; yields \(E = m \cdot c^2\)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.youtube.com/watch?v=dgG9Q7VyRb0&quot;&gt;Statistic courses&lt;/a&gt; from NCTU&lt;/li&gt;
+  &lt;li&gt;Practice problems from above course and &lt;a href=&quot;https://www.amazon.co.jp/-/en/%E5%A7%AB%E9%87%8E-%E4%BF%8A%E4%B8%80/dp/4781913717/ref=pd_lpo_14_t_0/356-4596967-6851831?_encoding=UTF8&amp;amp;pd_rd_i=4781913717&amp;amp;pd_rd_r=0a1217f4-6984-4c97-a56e-5da767cebea1&amp;amp;pd_rd_w=c2JPG&amp;amp;pd_rd_wg=VzFDT&amp;amp;pf_rd_p=dc0198fa-c371-4787-b1e2-96ed0e4d45e8&amp;amp;pf_rd_r=0XRTYSGETW6N8X5W01JN&amp;amp;psc=1&amp;amp;refRID=0XRTYSGETW6N8X5W01JN&quot;&gt;the little yellow book ii&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;And here’s something more fancy:&lt;/p&gt;
+&lt;h3 id=&quot;stochastic-processes&quot;&gt;Stochastic Processes&lt;/h3&gt;
 
-\[\zeta(s) = \frac{1}{\Gamma(s)} \int \limits_0^\infty x^{s-1} \sum_{n=1}^\infty e^{-nx} \mathrm{d}x = \frac{1}{\Gamma(s)} \int \limits_0^\infty \frac{x^{s-1}}{e^x - 1} \mathrm{d}x\]
+&lt;ul&gt;
+  &lt;li&gt;Poisson process from &lt;a href=&quot;https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-262-discrete-stochastic-processes-spring-2011/&quot;&gt;MIT 6.262&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Discrete Markov process from chapter 1 of &lt;a href=&quot;https://www.amazon.co.jp/Markov-Cambridge-Statistical-Probabilistic-Mathematics/dp/0521633966&quot;&gt;&lt;em&gt;Markov Chains&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;h3 id=&quot;theres-more-being-added-all-the-time&quot;&gt;There’s more being added all the time&lt;/h3&gt;
+&lt;h3 id=&quot;graph-theory&quot;&gt;Graph Theory&lt;/h3&gt;
 
-&lt;p&gt;Checkout the &lt;a href=&quot;https://github.com/jacobtomlinson/carte-noire&quot;&gt;Github repository&lt;/a&gt; to request,
-or add, features.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Graph theory chapter of &lt;a href=&quot;https://book.douban.com/subject/1245789/&quot;&gt;this book&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Unit 1 &amp;amp; 2 of &lt;a href=&quot;https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-spring-2015/index.htm&quot;&gt;MIT 6.042J&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-&lt;p&gt;Happy writing.&lt;/p&gt;
+&lt;h3 id=&quot;data-structures-and-algorithms&quot;&gt;Data Structures and Algorithms&lt;/h3&gt;
 
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-006-introduction-to-algorithms-fall-2011/&quot;&gt;MIT 6.006&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Part of &lt;a href=&quot;https://algs4.cs.princeton.edu/home/&quot;&gt;&lt;em&gt;Algorithms&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Some other introduction to cs courses and programming language (python, C++) courses are not listed here. These are what I learned before I went to UTokyo (~2019.3). Following part are what I learned from 2019.4.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;201941--2021514&quot;&gt;2019.4.1 ~ 2021.5.14&lt;/h2&gt;
+
+&lt;h3 id=&quot;machine-learning&quot;&gt;Machine Learning&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://speech.ee.ntu.edu.tw/~hylee/ml/2019-spring.html&quot;&gt;Machine learning course&lt;/a&gt; from Hung-yi Lee&lt;/li&gt;
+  &lt;li&gt;Data mining course from Prof. Tsuda in UTokyo&lt;/li&gt;
+  &lt;li&gt;Part of &lt;a href=&quot;https://book.douban.com/subject/26708119/&quot;&gt;watermelon book&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;deep-learning&quot;&gt;Deep Learning&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://cs231n.stanford.edu/2017/&quot;&gt;Stanford CS231n&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Part of &lt;a href=&quot;https://www.deeplearningbook.org/&quot;&gt;&lt;em&gt;Deep Learning&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;more-algorithms&quot;&gt;More Algorithms&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Algorithm courses from Prof. Hirai in UTokyo&lt;/li&gt;
+  &lt;li&gt;Chapter 1~6 of &lt;a href=&quot;https://www.amazon.com/gp/product/0321295358/ref=as_li_qf_sp_asin_il_tl?ie=UTF8&amp;amp;tag=kleinberg-tardos-20&amp;amp;linkCode=as2&amp;amp;camp=1789&amp;amp;creative=9325&amp;amp;creativeASIN=0321295358&quot;&gt;&lt;em&gt;Algorithm Design&lt;/em&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;Solved over 1000 problems on various Online Judges such as &lt;a href=&quot;https://leetcode.com/Yao_Yin/&quot;&gt;LeetCode&lt;/a&gt;, &lt;a href=&quot;https://atcoder.jp/users/Solored&quot;&gt;AtCoder&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;computer-system&quot;&gt;Computer System&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://www.cs.cmu.edu/afs/cs/academic/class/15213-f15/www/&quot;&gt;CMU 15-213&lt;/a&gt; together with its labs on &lt;a href=&quot;https://github.com/yao-yin/CSAPP-labs&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I also got benefits from some courses without a university backround, like ones from &lt;a href=&quot;https://space.bilibili.com/7836741?from=search&amp;amp;seid=11413859523024460719&quot;&gt;yxc&lt;/a&gt;, &lt;a href=&quot;https://www.youtube.com/channel/UCRPMAqdtSgd0Ipeef7iFsKw&quot;&gt;Gaurav Sen&lt;/a&gt;. Computational biology related books and courses are not listed here.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;Here is my plan in the future.&lt;/p&gt;
+
+&lt;h2 id=&quot;2021515-&quot;&gt;2021.5.15 ~&lt;/h2&gt;
+
+&lt;h3 id=&quot;competitive-programming&quot;&gt;Competitive Programming&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;To solve all problems on &lt;a href=&quot;https://www.amazon.co.jp/%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E3%82%B3%E3%83%B3%E3%83%86%E3%82%B9%E3%83%88%E3%83%81%E3%83%A3%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%96%E3%83%83%E3%82%AF-%E7%AC%AC2%E7%89%88-%EF%BD%9E%E5%95%8F%E9%A1%8C%E8%A7%A3%E6%B1%BA%E3%81%AE%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E6%B4%BB%E7%94%A8%E5%8A%9B%E3%81%A8%E3%82%B3%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%86%E3%82%AF%E3%83%8B%E3%83%83%E3%82%AF%E3%82%92%E9%8D%9B%E3%81%88%E3%82%8B%EF%BD%9E-%E7%A7%8B%E8%91%89%E6%8B%93%E5%93%89/dp/4839941068&quot;&gt;&lt;em&gt;Ant book&lt;/em&gt;&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Currently solved all problems before &lt;a href=&quot;https://vjudge.net/article/46&quot;&gt;chapter 3.3&lt;/a&gt; (2021.5.15)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Solve another 1000 problems on various online judges
+    &lt;ul&gt;
+      &lt;li&gt;I wish to have a rating over 2000 on &lt;a href=&quot;https://atcoder.jp/&quot;&gt;AtCoder&lt;/a&gt;, currently around 1400 (2021.5.15)&lt;/li&gt;
+      &lt;li&gt;I with to win a T-shirt on GCJ. To achieve this, I need to be qualified for GCJ R3, currently qualified for GCJ R2 (2021.5.15)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;operating-system&quot;&gt;Operating System&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://pdos.csail.mit.edu/6.S081/2020/&quot;&gt;MIT 6.S081&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/yao-yin/xv6-labs-2020&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;computer-networking&quot;&gt;Computer Networking&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://cs144.github.io/&quot;&gt;Stanford CS144&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Start from 2021.5.12&lt;/li&gt;
+      &lt;li&gt;&lt;a href=&quot;https://github.com/yao-yin/sponge&quot;&gt;Github&lt;/a&gt;, might be set to be private in the future if requested by course owners&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;database&quot;&gt;Database&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://15445.courses.cs.cmu.edu/fall2019/&quot;&gt;CMU 15-445&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Will start it if I finish two above courses&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;computer-architecture&quot;&gt;Computer Architecture&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://safari.ethz.ch/digitaltechnik/spring2020/doku.php?id=labs&quot;&gt;ETHZ Digital Design and Computer Architecture&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Wait my FPGA board to arrive (2021.5.15)&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;compiler&quot;&gt;Compiler&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://web.stanford.edu/class/cs143/&quot;&gt;CS143&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;design-patterns&quot;&gt;Design Patterns&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Haven’t decided where to study it (2021.5.15).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I am also interested in other criteria such as distributed systems, but most of them need above courses as prerequite. I’ll think about it after I finish the above courses.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;By the way, I believe all of the courses above can cover requirements of a bachelor’s degree in computer science engineering, so I call it “yy的补全计划” (YY’s completion plan). If you see this word in some other place, that should be me.&lt;/p&gt;
+
+&lt;p&gt;In the very beginning of this plan, I wished to finish it before 2022.9, after changing some contents of it and becoming a fulltime software engineer, I found that most of energy will be taken to do my job and I would like to spend much more time with my dear girlfriend. Thus pushing myself crucially is meaningless. I wanna enjoy my job, enjoy my life, enjoy these courses. I don’t want to be burnt out. My estimation on the date that I finish these courses is 2023.3, a traditional graduation season in Japan.&lt;/p&gt;
+
+&lt;p&gt;頑張ります!&lt;/p&gt;
 </description>
-        <pubDate>Tue, 10 Jun 2014 21:31:19 +0900</pubDate>
-        <link>http://localhost:4000/jekyll/2014/06/10/carte-noire-in-action/</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/2014/06/10/carte-noire-in-action/</guid>
+        <pubDate>Fri, 14 May 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/biography/2021/05/14/my-journey-in-cs-and-math/</link>
+        <guid isPermaLink="true">http://localhost:4000/biography/2021/05/14/my-journey-in-cs-and-math/</guid>
         
-        <category>demo</category>
+        <category>biography</category>
         
-        <category>action</category>
+        <category>computer science</category>
         
-        <category>carte</category>
+        <category>math</category>
         
-        <category>noire</category>
+        <category>learning plan</category>
         
         
-        <category>jekyll</category>
+        <category>biography</category>
         
       </item>
     
       <item>
-        <title>So, What is Jekyll?</title>
-        <description>&lt;p&gt;Jekyll is a tool for transforming your plain text into static websites and
-blogs. It is simple, static, and blog-aware. Jekyll uses the
-&lt;a href=&quot;http://docs.shopify.com/themes/liquid-basics&quot;&gt;Liquid&lt;/a&gt; templating
-language and has builtin &lt;a href=&quot;http://daringfireball.net/projects/markdown/&quot;&gt;Markdown&lt;/a&gt;
-and &lt;a href=&quot;http://en.wikipedia.org/wiki/Textile_(markup_language)&quot;&gt;Textile&lt;/a&gt; support.&lt;/p&gt;
+        <title>About Me</title>
+        <description>&lt;p&gt;Hi, I am Yao Yin, a software engineer based in Tokyo.&lt;/p&gt;
 
-&lt;p&gt;It also ties in nicely to &lt;a href=&quot;https://pages.github.com/&quot;&gt;Github Pages&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I got my bachelor’s degree in pharmacy from Nankai University, and a master’s degree in computational biology from The University of Tokyo (Todai). At graduate school, I spent 2 wonderful years on research in algorithms for biological sequences alignment with &lt;a href=&quot;https://sites.google.com/site/frithbioinfo/home?authuser=0&quot;&gt;Prof. Frith&lt;/a&gt;. If you are interested in our research, please check our &lt;a href=&quot;https://www.biorxiv.org/content/10.1101/2021.01.25.428050v1&quot;&gt;paper&lt;/a&gt; on AICoB 2020 &amp;amp; 2021.&lt;/p&gt;
 
-&lt;p&gt;Learn more about Jekyll on their &lt;a href=&quot;http://jekyllrb.com/&quot;&gt;website&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I love the world of math, statistics, and computer science. I taught myself bits of knowledge on them to pass the graduate school entrance examination and get hired by my current company. You can find my self-learning journey &lt;a href=&quot;2021-05-15-my-journey-in-cs-and-math.md&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Before COVID-19 situation, I love playing table tennis. Currently I spend my spare time relaxing, reading, learning, and chatting with my girlfriend. I miss her so much.&lt;/p&gt;
 </description>
-        <pubDate>Mon, 09 Jun 2014 21:32:18 +0900</pubDate>
-        <link>http://localhost:4000/jekyll/2014/06/09/so-what-is-jekyll/</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/2014/06/09/so-what-is-jekyll/</guid>
+        <pubDate>Fri, 14 May 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/biography/2021/05/14/about-me/</link>
+        <guid isPermaLink="true">http://localhost:4000/biography/2021/05/14/about-me/</guid>
         
-        <category>about</category>
-        
-        <category>jekyll</category>
+        <category>biography</category>
         
         
-        <category>jekyll</category>
-        
-      </item>
-    
-      <item>
-        <title>Using thumbnails</title>
-        <description>&lt;p&gt;Carte Noire is designed to start each article with an all-white image as a
-thumbnail. These are created by adding a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;thumbnail&lt;/code&gt; parameter to the article’s
-&lt;a href=&quot;http://jekyllrb.com/docs/frontmatter/&quot;&gt;YAML frontmatter&lt;/a&gt;. This thumbnail parameter is processed in one of two ways,
-images specified in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_data/thumbnails.yml&lt;/code&gt; or using &lt;a href=&quot;http://fortawesome.github.io/Font-Awesome/&quot;&gt;Font Awesome&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&quot;images&quot;&gt;Images&lt;/h2&gt;
-
-&lt;p&gt;To use your own custom images as a thumbnail you must upload them to a web available
-location (I use &lt;a href=&quot;http://imgur.com/&quot;&gt;Imgur&lt;/a&gt;) and then you need to add the url to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_data/thumbnail.yml&lt;/code&gt;
-with an associated keyword.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll: &quot;http://i.imgur.com/aRQcGSi.png&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;You then add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;thumbnail&lt;/code&gt; option to the article’s frontmatter and provide the keyword
-for that thumbnail.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;thumbnail: jekyll
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;This allows you to re-use thumbnails across multiple articles without having to
-specify the url each time.&lt;/p&gt;
-
-&lt;h2 id=&quot;font-awesome&quot;&gt;Font Awesome&lt;/h2&gt;
-
-&lt;p&gt;If jekyll can’t find a corresponding image in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;thumbnail.yml&lt;/code&gt; file then it
-will assume you want to use a Font Awesome icon instead. You can find the full
-list of Font Awesome icons &lt;a href=&quot;http://fortawesome.github.io/Font-Awesome/icons/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;So for example if your article is about android and you want to use the &lt;a href=&quot;http://fortawesome.github.io/Font-Awesome/icon/android/&quot;&gt;android icon&lt;/a&gt;
-from font awesome you can just specify the following in your frontmatter.&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;thumbnail: android
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Then in the future if you decide you want to use your own android icon you can just
-add it to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_data/thumbnails.yml&lt;/code&gt; which will override it for all articles using
-the android thumbnail.&lt;/p&gt;
-
-</description>
-        <pubDate>Sun, 08 Jun 2014 21:32:18 +0900</pubDate>
-        <link>http://localhost:4000/jekyll/2014/06/08/using-thumbnails/</link>
-        <guid isPermaLink="true">http://localhost:4000/jekyll/2014/06/08/using-thumbnails/</guid>
-        
-        <category>thumbnails</category>
-        
-        <category>carte noire</category>
-        
-        
-        <category>jekyll</category>
+        <category>biography</category>
         
       </item>
     

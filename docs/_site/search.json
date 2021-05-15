@@ -1,35 +1,19 @@
 [
   
   {
-    "title"    : "Welcome to Carte Noire",
+    "title"    : "My Journey in Computer Science and Math",
     "category" : "",
-    "tags"     : "welcome, to, carte, noire",
-    "url"      : "/jekyll/2015/03/24/welcome-to-carte-noir/",
-    "date"     : "2015-03-24 00:31:19 +0900"
+    "tags"     : "biography, computer science, math, learning plan",
+    "url"      : "/biography/2021/05/14/my-journey-in-cs-and-math/",
+    "date"     : "2021-05-14 00:00:00 +0900"
     } ,
     
   {
-    "title"    : "Carte Noire in Action",
+    "title"    : "About Me",
     "category" : "",
-    "tags"     : "demo, action, carte, noire",
-    "url"      : "/jekyll/2014/06/10/carte-noire-in-action/",
-    "date"     : "2014-06-10 21:31:19 +0900"
-    } ,
-    
-  {
-    "title"    : "So, What is Jekyll?",
-    "category" : "",
-    "tags"     : "about, jekyll",
-    "url"      : "/jekyll/2014/06/09/so-what-is-jekyll/",
-    "date"     : "2014-06-09 21:32:18 +0900"
-    } ,
-    
-  {
-    "title"    : "Using thumbnails",
-    "category" : "",
-    "tags"     : "thumbnails, carte noire",
-    "url"      : "/jekyll/2014/06/08/using-thumbnails/",
-    "date"     : "2014-06-08 21:32:18 +0900"
+    "tags"     : "biography",
+    "url"      : "/biography/2021/05/14/about-me/",
+    "date"     : "2021-05-14 00:00:00 +0900"
     } 
     
   ]

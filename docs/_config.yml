@@ -5,11 +5,11 @@ email: InYuo1997@gmail.com
 description: "Yao Yin's Personal Website"
 baseurl: ""
 url: "https://yin-yao.github.io"
-title_description: "Hi, this is Yao Yin. Welcome to my cyberspace! \n 欢迎光临！ようこそ！\n\n I love the world of math and computer science as a software engineer. This website is built to record and share my thoughts and notes.
+title_description: "Hi, this is Yao Yin. Welcome to my cyberspace! \n 欢迎光临！ようこそ！\n\n I love the world of math and computer science as a software engineer. This space is constructed to save and share my thoughts and notes.
 \n\n My avatar is Xiaoludan (小卤蛋), the cat kept by my dear girlfriend."
 title_image: "/images/xiaoludan_avatar.jpg"
 google_analytics: "UA-20365477-4"
-disqus_account: cartenoire
+disqus_account:
 github_repository: https://github.com/yao-yin/yao-yin.github.io/tree/gh-pages
 addthis_id: ra-513c6fa83da6ec67
 post_limit: 5
@@ -18,10 +18,10 @@ post_limit: 5
 twitter_username: CreamEggMeat
 github_username:  yao-yin
 instagram_username: 
-reddit_username: 
+reddit_username:
 linkedin_link: https://www.linkedin.com/in/yin-yao-54457b12a/
-google_plus_link: http://carte-noire.jacobtomlinson.co.uk/
-stackoverflow_link: http://carte-noire.jacobtomlinson.co.uk/
+google_plus_link:
+stackoverflow_link:
 xing_link:
 facebook_link:
 
