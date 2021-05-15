@@ -13,7 +13,7 @@ tags:
  - learning plan
 ---
 
-Just as I writed in [About Me](2021-05-14-about-me.md), I love the world of CS and math and I taught myself bits of knowledge in these fields and use them to pass the entrance exam of UTokyo and to be hired as a software engineer. This post is about what I did and what I will do in the future.  
+Just as I writed in [*About Me*]({% post_url 2021-05-14-about-me %}), I love the world of CS and math and I taught myself bits of knowledge in these fields and use them to pass the entrance exam of UTokyo and to be hired as a software engineer. This post is about what I did and what I will do in the future.  
 
 I got my bachelor's degree in pharmacy but I decided to quit that in the 4th year of my undergraduate studies. Thus I have no extra time to persue anthor bacholer's degree in computer science/math/software engineering. With generous seggestions from one of my good friends who is a Google software engineer now, I decided to learn open source computer science courses.
 
