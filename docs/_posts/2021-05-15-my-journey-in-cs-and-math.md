@@ -72,7 +72,7 @@ ___
 
 ### Machine Learning
 
-- [Machine learning course](https://speech.ee.ntu.edu.tw/~hylee/ml/2019-spring.html) from Hung-yi Lee
+- [Machine learning course](https://speech.ee.ntu.edu.tw/~hylee/ml/2019-spring.html) from Prof. Hung-yi Lee
 - Data mining course from Prof. Tsuda in UTokyo
 - Part of [watermelon book](https://book.douban.com/subject/26708119/)
 
