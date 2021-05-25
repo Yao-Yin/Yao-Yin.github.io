@@ -5,8 +5,8 @@
     <description>Yao Yin's Personal Website</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 15 May 2021 11:38:07 +0900</pubDate>
-    <lastBuildDate>Sat, 15 May 2021 11:38:07 +0900</lastBuildDate>
+    <pubDate>Tue, 25 May 2021 22:17:24 +0900</pubDate>
+    <lastBuildDate>Tue, 25 May 2021 22:17:24 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
@@ -87,7 +87,7 @@
 &lt;h3 id=&quot;machine-learning&quot;&gt;Machine Learning&lt;/h3&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://speech.ee.ntu.edu.tw/~hylee/ml/2019-spring.html&quot;&gt;Machine learning course&lt;/a&gt; from Hung-yi Lee&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://speech.ee.ntu.edu.tw/~hylee/ml/2019-spring.html&quot;&gt;Machine learning course&lt;/a&gt; from Prof. Hung-yi Lee&lt;/li&gt;
   &lt;li&gt;Data mining course from Prof. Tsuda in UTokyo&lt;/li&gt;
   &lt;li&gt;Part of &lt;a href=&quot;https://book.douban.com/subject/26708119/&quot;&gt;watermelon book&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
