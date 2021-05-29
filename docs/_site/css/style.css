@@ -7,7 +7,7 @@
 /* Globals */
 html { height: 100%; overflow-x: hidden; }
 
-body { font-family: 'Open Sans', sans-serif; font-weight: 300; background-color: #2D2D29; color: #FFFFFF; font-size: 16px; height: 100%; width: 100%; }
+body { font-family: 'Open Sans', sans-serif, 'Noto Serif JP' 'Microsoft Yahei'; font-weight: 200; background-color: #2D2D29; color: #FFFFFF; font-size: 16px; height: 100%; width: 100%; }
 
 a, a:active { color: #3CA2A2; text-decoration: none; }
 

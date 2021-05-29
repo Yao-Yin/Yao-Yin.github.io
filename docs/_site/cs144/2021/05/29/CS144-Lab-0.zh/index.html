@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS144 Lab 0</title>
+<meta name="description" content="Yao Yin's Personal Website">
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="all" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/css/jquery.mmenu.all.css" />
+<link rel="stylesheet" href="/css/highlightjs.piperita.css">
+
+<!-- Favicons generated at http://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/favicons/manifest.json">
+<link rel="shortcut icon" href="/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513c6fa83da6ec67"></script>
+
+
+
+
+</head>
+
+
+    <body>
+
+    <nav id="my-menu">
+  <div>
+    <p>Yao Yin's Cyberspace</p>
+
+    <ul class="pages">
+      <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="/posts/"><i class="fa fa-archive"></i> All Posts</a></li>
+      <li><a href="/search/"><i class="fa fa-search"></i> Search</a></li>
+      <li><a href="/biography/2021/05/14/about-me/"><i class="fa fa-id-card"></i> About Me</a></li>
+    </ul>
+
+    <p class="links">
+  <a href="https://www.twitter.com/CreamEggMeat" target="_new"><i class="fa fa-twitter"></i></a>
+  <a href="https://www.linkedin.com/in/yin-yao-54457b12a/" target="_new"><i class="fa fa-linkedin"></i></a>
+  
+  
+  
+  <a href="https://github.com/yao-yin" target="_new"><i class="fa fa-github-alt"></i></a>
+  
+  
+  
+  <a href="mailto:InYuo1997@gmail.com" target="_new"><i class="fa fa-envelope"></i></a>
+  <a href="/feed.xml" target="_new"><i class="fa fa-rss"></i></a>
+</p>
+
+  </div>
+</nav>
+<div class="menu-button" href="#menu"><i class="fa fa-bars"></i></div>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      
+
+<div class="container-fluid single">
+  <div class="row">
+
+    <div itemscope itemtype="http://schema.org/Article" class="col-md-12 article">
+      
+
+      <h1 class="header" itemprop="name">CS144 Lab 0</h1>
+
+      <div class="author">
+        <small><i>
+          
+          by
+          <span itemprop="author">
+            
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yao Yin</span>
+            </span>
+            
+          </span>
+          
+          on <span itemprop="datePublished" content="2014-08-28">May 29, 2021</span>
+           under CS144
+        </i></small>
+      </div>
+
+      <div class="read-time">
+        <small>
+          2 minute read
+        </small>
+      </div>
+
+      <div class="content-panel content">
+
+        
+
+        <span itemprop="articleBody"><p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 的实验环境配置以及 Lab 0 的思路和代码。</p>
+
+<h1 id="环境配置">环境配置</h1>
+
+<p>我是在 WSL2 下做 Lab 的，首先需要参照这个<a href="https://stanford.edu/class/cs144/vm_howto/vm-howto-byo.html">清单</a>下载好所有依赖，基本上就是<code class="language-plaintext highlighter-rouge">sudo apt-get install &lt;dependency&gt;</code>，不太确定的可以谷歌。</p>
+
+<p>另一部分的配置是在 github 把<a href="https://github.com/CS144/sponge">官方仓库</a>克隆进自己的一个 <strong>private repository</strong>，可以参照 <a href="https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private">stackoverflow</a> 这里完成。之前看到有其他网友因为设置成了公开被这门课的教授要求改成私人可见，所以感觉还是不要麻烦别人比较好，感谢他们的开源，这步不用着急，在 Lab 0 文档的第三部分有指导。</p>
+
+<h1 id="lab-0">Lab 0</h1>
+
+<h2 id="networking-by-hand">Networking by hand</h2>
+
+<p>第一步是获取一个网页，这里有个小坑就是在命令行输入 <code class="language-plaintext highlighter-rouge">telnet cs144.keithw.org http</code> 之后，会进入 command 模式，没办法输入多行，需要按<code class="language-plaintext highlighter-rouge">ctrl + ]</code>进入 client 模式，这样可以输入多行，可以参照<a href="https://serverfault.com/questions/493313/telnet-doesnt-accept-enter-as-a-newline">这里</a>。</p>
+
+<p>第二步是用命令行发封 email，由于咱们没有斯坦福的账号，所以需要用个人邮箱，可以谷歌搜索 <strong>SMTP</strong> 来了解相关设置，具体怎么做就略了。</p>
+
+<p>第三步按照<a href="https://cs144.github.io/assignments/lab0.pdf">文档</a>开两个 WSL 命令行窗口输指令就好，也略了。</p>
+
+<h2 id="writing-a-network-program-using-an-os-stream-socket">Writing a network program using an OS stream socket</h2>
+
+<h3 id="get-started">Get started</h3>
+
+<p><code class="language-plaintext highlighter-rouge">cmake ..</code> 可能需要替换成<code class="language-plaintext highlighter-rouge">CXX=g++-8 cmake ..</code>，别的没啥坑。</p>
+
+<h3 id="writing-webget">Writing webget</h3>
+
+<p>这部分是需要实现 <strong>../apps/webget.cc</strong> 里的 <code class="language-plaintext highlighter-rouge">void get_URL(const string &amp;host, const string &amp;path)</code> 这个函数，这个函数的目的是新建一个 <code class="language-plaintext highlighter-rouge">TCPSocket</code>，将其与 <code class="language-plaintext highlighter-rouge">host</code> 连接，发送对 <code class="language-plaintext highlighter-rouge">path</code> 路径下内容的请求，并将返回内容打印到标准输出。</p>
+
+<p>首先需要阅读 <code class="language-plaintext highlighter-rouge">FileDescriptor</code>, <code class="language-plaintext highlighter-rouge">Socket</code>, <code class="language-plaintext highlighter-rouge">TCPSocket</code> 和 <code class="language-plaintext highlighter-rouge">Address</code> 的文档。</p>
+
+<p>阅读之后我们可以很容易地写出代码，参考如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void get_URL(const string &amp;host, const string &amp;path) { 
+    TCPSocket socket{};
+    socket.connect(Address(host, "http"));
+    string httpRequest = "GET " + path + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n";
+    socket.write(httpRequest);
+    while (!socket.eof()) {
+        auto &amp;&amp;response = socket.read();
+        cout &lt;&lt; response;
+    }
+    socket.close();
+}
+</code></pre></div></div>
+
+<h3 id="an-in-memory-reliable-byte-stream">An in-memory reliable byte stream</h3>
+
+<p>这一部分需要我们实现一个可靠的双向字节流。我用了一个 <code class="language-plaintext highlighter-rouge">std::deque&lt;char&gt; buf</code> 来做存储的核心数据结构，但实际上其他 FIFO 满足 O(1) 单个字符输入输出的结构都行。实验设计美中不足的是没有规定阅读超过储存大小的行文以及单次输入超过最大容量的字符串的行为。</p>
+
+<p>除了 <code class="language-plaintext highlighter-rouge">buf</code> 之外我还用了几个变量来储存一些信息。</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">int MAX_CAPACITY</code> 用来设定最大容量</li>
+  <li><code class="language-plaintext highlighter-rouge">int REMAIN_CAPACITY</code> 用来记录剩余容量</li>
+  <li><code class="language-plaintext highlighter-rouge">int _byte_written</code> 用来记录一共写入的字符数，注意这个是包括读取后，现在不在 <code class="language-plaintext highlighter-rouge">buf</code> 里的字符数的，是历史写入的总和</li>
+  <li><code class="language-plaintext highlighter-rouge">int _byte_read</code> 用来记录一共读取的字符数</li>
+  <li><code class="language-plaintext highlighter-rouge">bool _input_ended</code> 用来记录是否已经输入完成了</li>
+</ul>
+
+<p>几个核心的函数实现如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ByteStream::ByteStream(const size_t capacity) {
+    MAX_CAPACITY = capacity;
+    REMAIN_CAPACITY = capacity;
+}
+
+size_t ByteStream::write(const string &amp;data) {
+    int byteCount = 0;
+    for (auto &amp;&amp;c : data) {
+        if (REMAIN_CAPACITY == 0) {
+            set_error();
+            return byteCount;
+        }
+        buf.push_back(c);
+        byteCount++;
+        _byte_written++;
+        REMAIN_CAPACITY--;
+    }
+    return byteCount;
+}
+
+string ByteStream::peek_output(const size_t len) const {
+    string res;
+    for (auto &amp;&amp;iter = buf.cbegin(); iter &lt; buf.cbegin() + len; iter++) {
+        res.push_back(*iter);
+    }
+    return res;
+}
+
+void ByteStream::pop_output(const size_t len) {
+    for (size_t i = 0; i &lt; len; i++) {
+        buf.pop_front();
+        _byte_read++;
+    }
+    REMAIN_CAPACITY += len;
+}
+
+std::string ByteStream::read(const size_t len) {
+    string res;
+    for (size_t i = 0; i &lt; len; i++) {
+        res.push_back(buf.front());
+        buf.pop_front();
+        REMAIN_CAPACITY++;
+        _byte_read++;
+    }
+    return res;
+}
+
+bool ByteStream::eof() const { 
+    // 虽然感觉文档的 eof 定义不够准确，但这样可以过测试
+    return buffer_empty() &amp;&amp; input_ended(); 
+}
+
+</code></pre></div></div>
+
+<p>基本上还是比较直白的，不需要太多介绍。
+实现完之后可以</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ CXX=g++-8 cmake ..
+$ make format
+$ make
+$ make check_lab0
+</code></pre></div></div>
+<p>来测试自己的代码。</p>
+</span>
+
+        
+
+        
+        <div class="share">
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+          <div class="addthis_sharing_toolbox"></div>
+        </div>
+        
+
+        
+        <div class="tags">
+          <small>
+          <i class="fa fa-tags"></i>
+            CS144, computer networking
+          </small>
+        </div>
+        
+
+      </div>
+
+      
+      <div class="content-panel feedback">
+        I <i class="fa fa-heart"></i> feedback.<br />
+        Let me know what you think of this article on twitter <a href="http://www.twitter.com/CreamEggMeat">@CreamEggMeat</a> or leave a comment below!
+      </div>
+      
+
+      
+      <div class="content-panel comments">
+        <div id="disqus_thread">
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      </div>
+      
+
+      
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+function disqus_config() { this.experiment.enable_scroll_container = true; }
+var disqus_shortname = "Yin Yao"; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+
+      </div>
+    </div>
+
+    <div class="footer clearfix">
+  <div class="col-md-6">
+    Made with <i class="fa fa-heart"></i> by <a href="https://twitter.com/CreamEggMeat">Yao Yin</a>
+  </div>
+  <div class="col-md-6">
+    &lt;/&gt; Jekyll theme by <a href="https://twitter.com/_JacobTomlinson">Jacob Tomlinson</a>&nbsp;<a class="fa fa-github-alt" href="https://github.com/jacobtomlinson/carte-noire"></a>
+  </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="/js/jquery.mmenu.min.all.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+      $("#my-menu").mmenu().on( "closed.mm", function() {
+            $(".menu-button").show();
+         });
+      $(".menu-button").click(function() {
+        $(".menu-button").hide();
+        $("#my-menu").trigger("open.mm");
+      });
+   });
+</script>
+
+
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20365477-4']);
+          _gaq.push(['_trackPageview']);
+  (function () {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+    </body>
+</html>

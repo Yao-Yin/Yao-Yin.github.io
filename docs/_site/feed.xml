@@ -5,9 +5,148 @@
     <description>Yao Yin's Personal Website</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 25 May 2021 22:17:24 +0900</pubDate>
-    <lastBuildDate>Tue, 25 May 2021 22:17:24 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 17:46:56 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 17:46:56 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
+    
+      <item>
+        <title>CS144 Lab 0</title>
+        <description>&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 的实验环境配置以及 Lab 0 的思路和代码。&lt;/p&gt;
+
+&lt;h1 id=&quot;环境配置&quot;&gt;环境配置&lt;/h1&gt;
+
+&lt;p&gt;我是在 WSL2 下做 Lab 的，首先需要参照这个&lt;a href=&quot;https://stanford.edu/class/cs144/vm_howto/vm-howto-byo.html&quot;&gt;清单&lt;/a&gt;下载好所有依赖，基本上就是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt-get install &amp;lt;dependency&amp;gt;&lt;/code&gt;，不太确定的可以谷歌。&lt;/p&gt;
+
+&lt;p&gt;另一部分的配置是在 github 把&lt;a href=&quot;https://github.com/CS144/sponge&quot;&gt;官方仓库&lt;/a&gt;克隆进自己的一个 &lt;strong&gt;private repository&lt;/strong&gt;，可以参照 &lt;a href=&quot;https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private&quot;&gt;stackoverflow&lt;/a&gt; 这里完成。之前看到有其他网友因为设置成了公开被这门课的教授要求改成私人可见，所以感觉还是不要麻烦别人比较好，感谢他们的开源，这步不用着急，在 Lab 0 文档的第三部分有指导。&lt;/p&gt;
+
+&lt;h1 id=&quot;lab-0&quot;&gt;Lab 0&lt;/h1&gt;
+
+&lt;h2 id=&quot;networking-by-hand&quot;&gt;Networking by hand&lt;/h2&gt;
+
+&lt;p&gt;第一步是获取一个网页，这里有个小坑就是在命令行输入 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;telnet cs144.keithw.org http&lt;/code&gt; 之后，会进入 command 模式，没办法输入多行，需要按&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + ]&lt;/code&gt;进入 client 模式，这样可以输入多行，可以参照&lt;a href=&quot;https://serverfault.com/questions/493313/telnet-doesnt-accept-enter-as-a-newline&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;第二步是用命令行发封 email，由于咱们没有斯坦福的账号，所以需要用个人邮箱，可以谷歌搜索 &lt;strong&gt;SMTP&lt;/strong&gt; 来了解相关设置，具体怎么做就略了。&lt;/p&gt;
+
+&lt;p&gt;第三步按照&lt;a href=&quot;https://cs144.github.io/assignments/lab0.pdf&quot;&gt;文档&lt;/a&gt;开两个 WSL 命令行窗口输指令就好，也略了。&lt;/p&gt;
+
+&lt;h2 id=&quot;writing-a-network-program-using-an-os-stream-socket&quot;&gt;Writing a network program using an OS stream socket&lt;/h2&gt;
+
+&lt;h3 id=&quot;get-started&quot;&gt;Get started&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt; 可能需要替换成&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CXX=g++-8 cmake ..&lt;/code&gt;，别的没啥坑。&lt;/p&gt;
+
+&lt;h3 id=&quot;writing-webget&quot;&gt;Writing webget&lt;/h3&gt;
+
+&lt;p&gt;这部分是需要实现 &lt;strong&gt;../apps/webget.cc&lt;/strong&gt; 里的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;void get_URL(const string &amp;amp;host, const string &amp;amp;path)&lt;/code&gt; 这个函数，这个函数的目的是新建一个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSocket&lt;/code&gt;，将其与 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;host&lt;/code&gt; 连接，发送对 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;path&lt;/code&gt; 路径下内容的请求，并将返回内容打印到标准输出。&lt;/p&gt;
+
+&lt;p&gt;首先需要阅读 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileDescriptor&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Socket&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSocket&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Address&lt;/code&gt; 的文档。&lt;/p&gt;
+
+&lt;p&gt;阅读之后我们可以很容易地写出代码，参考如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;void get_URL(const string &amp;amp;host, const string &amp;amp;path) { 
+    TCPSocket socket{};
+    socket.connect(Address(host, &quot;http&quot;));
+    string httpRequest = &quot;GET &quot; + path + &quot; HTTP/1.1\r\n&quot; + &quot;Host: &quot; + host + &quot;\r\n&quot; + &quot;Connection: close\r\n\r\n&quot;;
+    socket.write(httpRequest);
+    while (!socket.eof()) {
+        auto &amp;amp;&amp;amp;response = socket.read();
+        cout &amp;lt;&amp;lt; response;
+    }
+    socket.close();
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;an-in-memory-reliable-byte-stream&quot;&gt;An in-memory reliable byte stream&lt;/h3&gt;
+
+&lt;p&gt;这一部分需要我们实现一个可靠的双向字节流。我用了一个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::deque&amp;lt;char&amp;gt; buf&lt;/code&gt; 来做存储的核心数据结构，但实际上其他 FIFO 满足 O(1) 单个字符输入输出的结构都行。实验设计美中不足的是没有规定阅读超过储存大小的行文以及单次输入超过最大容量的字符串的行为。&lt;/p&gt;
+
+&lt;p&gt;除了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;buf&lt;/code&gt; 之外我还用了几个变量来储存一些信息。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int MAX_CAPACITY&lt;/code&gt; 用来设定最大容量&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int REMAIN_CAPACITY&lt;/code&gt; 用来记录剩余容量&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int _byte_written&lt;/code&gt; 用来记录一共写入的字符数，注意这个是包括读取后，现在不在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;buf&lt;/code&gt; 里的字符数的，是历史写入的总和&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int _byte_read&lt;/code&gt; 用来记录一共读取的字符数&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bool _input_ended&lt;/code&gt; 用来记录是否已经输入完成了&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;几个核心的函数实现如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ByteStream::ByteStream(const size_t capacity) {
+    MAX_CAPACITY = capacity;
+    REMAIN_CAPACITY = capacity;
+}
+
+size_t ByteStream::write(const string &amp;amp;data) {
+    int byteCount = 0;
+    for (auto &amp;amp;&amp;amp;c : data) {
+        if (REMAIN_CAPACITY == 0) {
+            set_error();
+            return byteCount;
+        }
+        buf.push_back(c);
+        byteCount++;
+        _byte_written++;
+        REMAIN_CAPACITY--;
+    }
+    return byteCount;
+}
+
+string ByteStream::peek_output(const size_t len) const {
+    string res;
+    for (auto &amp;amp;&amp;amp;iter = buf.cbegin(); iter &amp;lt; buf.cbegin() + len; iter++) {
+        res.push_back(*iter);
+    }
+    return res;
+}
+
+void ByteStream::pop_output(const size_t len) {
+    for (size_t i = 0; i &amp;lt; len; i++) {
+        buf.pop_front();
+        _byte_read++;
+    }
+    REMAIN_CAPACITY += len;
+}
+
+std::string ByteStream::read(const size_t len) {
+    string res;
+    for (size_t i = 0; i &amp;lt; len; i++) {
+        res.push_back(buf.front());
+        buf.pop_front();
+        REMAIN_CAPACITY++;
+        _byte_read++;
+    }
+    return res;
+}
+
+bool ByteStream::eof() const { 
+    // 虽然感觉文档的 eof 定义不够准确，但这样可以过测试
+    return buffer_empty() &amp;amp;&amp;amp; input_ended(); 
+}
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;基本上还是比较直白的，不需要太多介绍。
+实现完之后可以&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ CXX=g++-8 cmake ..
+$ make format
+$ make
+$ make check_lab0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;来测试自己的代码。&lt;/p&gt;
+</description>
+        <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/cs144/2021/05/29/CS144-Lab-0.zh/</link>
+        <guid isPermaLink="true">http://localhost:4000/cs144/2021/05/29/CS144-Lab-0.zh/</guid>
+        
+        <category>CS144</category>
+        
+        <category>computer networking</category>
+        
+        
+        <category>CS144</category>
+        
+      </item>
     
       <item>
         <title>My Journey in Computer Science and Math</title>
