@@ -142,6 +142,6 @@ ___
 
 By the way, I believe all of the courses above can cover requirements of a bachelor's degree in computer science engineering, so I call it "yy的补全计划" (YY's completion plan). If you see this word in some other place, that should be me.  
 
-In the very beginning of this plan, I wished to finish it before 2022.9, after changing some contents of it and becoming a fulltime software engineer, I found that most of energy will be taken to do my job and I would like to spend much more time with my dear girlfriend. Thus pushing myself crucially is meaningless. I wanna enjoy my job, enjoy my life, enjoy these courses. I don't want to be burnt out. My estimation on the date that I finish these courses is 2023.3, a traditional graduation season in Japan.
+At the very beginning of this plan, I wished to finish it before 2022.9, after changing some contents of it and becoming a fulltime software engineer, I found that most of energy will be taken to do my job and I would like to spend much more time with my dear girlfriend. Thus pushing myself crucially is meaningless. I wanna enjoy my job, enjoy my life, enjoy these courses. I don't want to be burnt out. My estimation on the date that I finish these courses is 2023.3, a traditional graduation season in Japan.
 
 頑張ります!
