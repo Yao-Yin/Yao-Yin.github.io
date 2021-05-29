@@ -5,8 +5,8 @@
     <description>Yao Yin's Personal Website</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 29 May 2021 19:22:02 +0900</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 19:22:02 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 20:48:58 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 20:48:58 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
@@ -127,13 +127,14 @@ bool ByteStream::eof() const {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;基本上还是比较直白的，不需要太多介绍。
-实现完之后可以&lt;/p&gt;
+实现完之后可以通过以下指令来测试自己的代码。&lt;/p&gt;
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ CXX=g++-8 cmake ..
 $ make format
 $ make
 $ make check_lab0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;p&gt;来测试自己的代码。&lt;/p&gt;
+&lt;p&gt;如果通过的话可以得到类似的输出。
+&lt;a href=&quot;/assets/images/cs144_lab0_success.png&quot;&gt;lab0 success&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/cs144/2021/05/29/CS144-Lab-0.zh/</link>
