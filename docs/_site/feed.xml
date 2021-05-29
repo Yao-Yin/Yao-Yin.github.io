@@ -5,25 +5,25 @@
     <description>Yao Yin's Personal Website</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 29 May 2021 20:48:58 +0900</pubDate>
-    <lastBuildDate>Sat, 29 May 2021 20:48:58 +0900</lastBuildDate>
+    <pubDate>Sat, 29 May 2021 23:30:48 +0900</pubDate>
+    <lastBuildDate>Sat, 29 May 2021 23:30:48 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
         <title>CS144 Lab 0</title>
-        <description>&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 的实验环境配置以及 Lab 0 的思路和代码。&lt;/p&gt;
+        <description>&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 的实验环境配置以及 Lab 0 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。&lt;/p&gt;
 
 &lt;h1 id=&quot;环境配置&quot;&gt;环境配置&lt;/h1&gt;
 
-&lt;p&gt;我是在 WSL2 下做 Lab 的，首先需要参照这个&lt;a href=&quot;https://stanford.edu/class/cs144/vm_howto/vm-howto-byo.html&quot;&gt;清单&lt;/a&gt;下载好所有依赖，基本上就是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt-get install &amp;lt;dependency&amp;gt;&lt;/code&gt;，不太确定的可以谷歌。&lt;/p&gt;
+&lt;p&gt;我是在 WSL2 下做 Lab 的，首先需要参照这个&lt;a href=&quot;https://stanford.edu/class/cs144/vm_howto/vm-howto-byo.html&quot;&gt;清单&lt;/a&gt;下载好所有依赖，基本上就是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sudo apt-get install &amp;lt;dependency&amp;gt;&lt;/code&gt;，不太确定的话请谷歌。&lt;/p&gt;
 
-&lt;p&gt;另一部分的配置是在 github 把&lt;a href=&quot;https://github.com/CS144/sponge&quot;&gt;官方仓库&lt;/a&gt;克隆进自己的一个 &lt;strong&gt;private repository&lt;/strong&gt;，可以参照 &lt;a href=&quot;https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private&quot;&gt;stackoverflow&lt;/a&gt; 这里完成。之前看到有其他网友因为设置成了公开被这门课的教授要求改成私人可见，所以感觉还是不要麻烦别人比较好，感谢他们的开源，这步不用着急，在 Lab 0 文档的第三部分有指导。&lt;/p&gt;
+&lt;p&gt;另一部分的配置是在 github 把&lt;a href=&quot;https://github.com/CS144/sponge&quot;&gt;官方仓库&lt;/a&gt;克隆进自己的一个私有仓库，可以参照 &lt;a href=&quot;https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private&quot;&gt;stackoverflow&lt;/a&gt; 完成。之前看到有其他网友因为设置成了公开被这门课的教授要求改成私人可见，所以感觉还是不要麻烦别人比较好。这步不用着急，在 Lab 0 文档的第三部分有指导。&lt;/p&gt;
 
 &lt;h1 id=&quot;lab-0&quot;&gt;Lab 0&lt;/h1&gt;
 
 &lt;h2 id=&quot;networking-by-hand&quot;&gt;Networking by hand&lt;/h2&gt;
 
-&lt;p&gt;第一步是获取一个网页，这里有个小坑就是在命令行输入 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;telnet cs144.keithw.org http&lt;/code&gt; 之后，会进入 command 模式，没办法输入多行，需要按&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + ]&lt;/code&gt;进入 client 模式，这样可以输入多行，可以参照&lt;a href=&quot;https://serverfault.com/questions/493313/telnet-doesnt-accept-enter-as-a-newline&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;第一步是获取一个网页，这里有个小坑就是在命令行输入 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;telnet cs144.keithw.org http&lt;/code&gt; 之后，会进入 command 模式，没办法输入多行，需要按 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ctrl + ]&lt;/code&gt; 进入 client 模式，这样可以输入多行，可以参照&lt;a href=&quot;https://serverfault.com/questions/493313/telnet-doesnt-accept-enter-as-a-newline&quot;&gt;这里&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;第二步是用命令行发封 email，由于咱们没有斯坦福的账号，所以需要用个人邮箱，可以谷歌搜索 &lt;strong&gt;SMTP&lt;/strong&gt; 来了解相关设置，具体怎么做就略了。&lt;/p&gt;
 
@@ -33,15 +33,13 @@
 
 &lt;h3 id=&quot;get-started&quot;&gt;Get started&lt;/h3&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt; 可能需要替换成&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CXX=g++-8 cmake ..&lt;/code&gt;，别的没啥坑。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cmake ..&lt;/code&gt; 可能需要替换成 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;CXX=g++-8 cmake ..&lt;/code&gt;，别的没啥坑。&lt;/p&gt;
 
 &lt;h3 id=&quot;writing-webget&quot;&gt;Writing webget&lt;/h3&gt;
 
 &lt;p&gt;这部分是需要实现 &lt;strong&gt;../apps/webget.cc&lt;/strong&gt; 里的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;void get_URL(const string &amp;amp;host, const string &amp;amp;path)&lt;/code&gt; 这个函数，这个函数的目的是新建一个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSocket&lt;/code&gt;，将其与 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;host&lt;/code&gt; 连接，发送对 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;path&lt;/code&gt; 路径下内容的请求，并将返回内容打印到标准输出。&lt;/p&gt;
 
-&lt;p&gt;首先需要阅读 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileDescriptor&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Socket&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSocket&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Address&lt;/code&gt; 的文档。&lt;/p&gt;
-
-&lt;p&gt;阅读之后我们可以很容易地写出代码，参考如下：&lt;/p&gt;
+&lt;p&gt;首先需要阅读 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;FileDescriptor&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Socket&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSocket&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Address&lt;/code&gt; 的文档。阅读之后我们可以很容易地写出代码，参考如下：&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;void get_URL(const string &amp;amp;host, const string &amp;amp;path) { 
     TCPSocket socket{};
@@ -134,7 +132,7 @@ $ make
 $ make check_lab0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 &lt;p&gt;如果通过的话可以得到类似的输出。
-&lt;a href=&quot;/assets/images/cs144_lab0_success.png&quot;&gt;lab0 success&lt;/a&gt;&lt;/p&gt;
+&lt;img src=&quot;/images/cs144_lab0_success.png&quot; alt=&quot;lab0 success&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
         <link>http://localhost:4000/cs144/2021/05/29/CS144-Lab-0.zh/</link>
@@ -363,7 +361,7 @@ $ make check_lab0
 
 &lt;p&gt;I got my bachelor’s degree in pharmacy from Nankai University, and a master’s degree in computational biology from The University of Tokyo (Todai). At graduate school, I spent 2 wonderful years on research in algorithms for biological sequences alignment with &lt;a href=&quot;https://sites.google.com/site/frithbioinfo/home?authuser=0&quot;&gt;Prof. Frith&lt;/a&gt;. If you are interested in our research, please check our &lt;a href=&quot;https://www.biorxiv.org/content/10.1101/2021.01.25.428050v1&quot;&gt;paper&lt;/a&gt; on AICoB 2020 &amp;amp; 2021.&lt;/p&gt;
 
-&lt;p&gt;I love the world of math, statistics, and computer science. I taught myself bits of knowledge on them to pass the graduate school entrance examination and get hired by my current company. You can find my self-learning journey &lt;a href=&quot;2021-05-15-my-journey-in-cs-and-math.md&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I love the world of math, statistics, and computer science. I taught myself bits of knowledge on them to pass the graduate school entrance examination and get hired by my current company. You can find my self-learning journey &lt;a href=&quot;/biography/2021/05/14/my-journey-in-cs-and-math/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;Before COVID-19 situation, I love playing table tennis. Currently I spend my spare time relaxing, reading, learning, and chatting with my girlfriend. I miss her so much.&lt;/p&gt;
 </description>

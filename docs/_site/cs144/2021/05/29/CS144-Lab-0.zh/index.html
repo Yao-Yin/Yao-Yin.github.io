@@ -85,6 +85,10 @@
 
     <div itemscope itemtype="http://schema.org/Article" class="col-md-12 article">
       
+      <div class="thumb">
+        <i class="fa fa-ticket fa-4x"></i>
+      </div>
+      
 
       <h1 class="header" itemprop="name">CS144 Lab 0</h1>
 
@@ -115,19 +119,19 @@
 
         
 
-        <span itemprop="articleBody"><p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 的实验环境配置以及 Lab 0 的思路和代码。</p>
+        <span itemprop="articleBody"><p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 的实验环境配置以及 Lab 0 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。</p>
 
 <h1 id="环境配置">环境配置</h1>
 
-<p>我是在 WSL2 下做 Lab 的，首先需要参照这个<a href="https://stanford.edu/class/cs144/vm_howto/vm-howto-byo.html">清单</a>下载好所有依赖，基本上就是<code class="language-plaintext highlighter-rouge">sudo apt-get install &lt;dependency&gt;</code>，不太确定的可以谷歌。</p>
+<p>我是在 WSL2 下做 Lab 的，首先需要参照这个<a href="https://stanford.edu/class/cs144/vm_howto/vm-howto-byo.html">清单</a>下载好所有依赖，基本上就是<code class="language-plaintext highlighter-rouge">sudo apt-get install &lt;dependency&gt;</code>，不太确定的话请谷歌。</p>
 
-<p>另一部分的配置是在 github 把<a href="https://github.com/CS144/sponge">官方仓库</a>克隆进自己的一个 <strong>private repository</strong>，可以参照 <a href="https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private">stackoverflow</a> 这里完成。之前看到有其他网友因为设置成了公开被这门课的教授要求改成私人可见，所以感觉还是不要麻烦别人比较好，感谢他们的开源，这步不用着急，在 Lab 0 文档的第三部分有指导。</p>
+<p>另一部分的配置是在 github 把<a href="https://github.com/CS144/sponge">官方仓库</a>克隆进自己的一个私有仓库，可以参照 <a href="https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private">stackoverflow</a> 完成。之前看到有其他网友因为设置成了公开被这门课的教授要求改成私人可见，所以感觉还是不要麻烦别人比较好。这步不用着急，在 Lab 0 文档的第三部分有指导。</p>
 
 <h1 id="lab-0">Lab 0</h1>
 
 <h2 id="networking-by-hand">Networking by hand</h2>
 
-<p>第一步是获取一个网页，这里有个小坑就是在命令行输入 <code class="language-plaintext highlighter-rouge">telnet cs144.keithw.org http</code> 之后，会进入 command 模式，没办法输入多行，需要按<code class="language-plaintext highlighter-rouge">ctrl + ]</code>进入 client 模式，这样可以输入多行，可以参照<a href="https://serverfault.com/questions/493313/telnet-doesnt-accept-enter-as-a-newline">这里</a>。</p>
+<p>第一步是获取一个网页，这里有个小坑就是在命令行输入 <code class="language-plaintext highlighter-rouge">telnet cs144.keithw.org http</code> 之后，会进入 command 模式，没办法输入多行，需要按 <code class="language-plaintext highlighter-rouge">ctrl + ]</code> 进入 client 模式，这样可以输入多行，可以参照<a href="https://serverfault.com/questions/493313/telnet-doesnt-accept-enter-as-a-newline">这里</a>。</p>
 
 <p>第二步是用命令行发封 email，由于咱们没有斯坦福的账号，所以需要用个人邮箱，可以谷歌搜索 <strong>SMTP</strong> 来了解相关设置，具体怎么做就略了。</p>
 
@@ -137,15 +141,13 @@
 
 <h3 id="get-started">Get started</h3>
 
-<p><code class="language-plaintext highlighter-rouge">cmake ..</code> 可能需要替换成<code class="language-plaintext highlighter-rouge">CXX=g++-8 cmake ..</code>，别的没啥坑。</p>
+<p><code class="language-plaintext highlighter-rouge">cmake ..</code> 可能需要替换成 <code class="language-plaintext highlighter-rouge">CXX=g++-8 cmake ..</code>，别的没啥坑。</p>
 
 <h3 id="writing-webget">Writing webget</h3>
 
 <p>这部分是需要实现 <strong>../apps/webget.cc</strong> 里的 <code class="language-plaintext highlighter-rouge">void get_URL(const string &amp;host, const string &amp;path)</code> 这个函数，这个函数的目的是新建一个 <code class="language-plaintext highlighter-rouge">TCPSocket</code>，将其与 <code class="language-plaintext highlighter-rouge">host</code> 连接，发送对 <code class="language-plaintext highlighter-rouge">path</code> 路径下内容的请求，并将返回内容打印到标准输出。</p>
 
-<p>首先需要阅读 <code class="language-plaintext highlighter-rouge">FileDescriptor</code>, <code class="language-plaintext highlighter-rouge">Socket</code>, <code class="language-plaintext highlighter-rouge">TCPSocket</code> 和 <code class="language-plaintext highlighter-rouge">Address</code> 的文档。</p>
-
-<p>阅读之后我们可以很容易地写出代码，参考如下：</p>
+<p>首先需要阅读 <code class="language-plaintext highlighter-rouge">FileDescriptor</code>, <code class="language-plaintext highlighter-rouge">Socket</code>, <code class="language-plaintext highlighter-rouge">TCPSocket</code> 和 <code class="language-plaintext highlighter-rouge">Address</code> 的文档。阅读之后我们可以很容易地写出代码，参考如下：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void get_URL(const string &amp;host, const string &amp;path) { 
     TCPSocket socket{};
@@ -238,7 +240,7 @@ $ make
 $ make check_lab0
 </code></pre></div></div>
 <p>如果通过的话可以得到类似的输出。
-<a href="/assets/images/cs144_lab0_success.png">lab0 success</a></p>
+<img src="/images/cs144_lab0_success.png" alt="lab0 success" /></p>
 </span>
 
         

@@ -5,7 +5,7 @@ date:       2021-05-14
 author:     Yao Yin
 summary:    How I taught myself computer science and math.
 categories: biography
-thumbnail:  heart
+thumbnail:  rocket
 tags:
  - biography
  - computer science
