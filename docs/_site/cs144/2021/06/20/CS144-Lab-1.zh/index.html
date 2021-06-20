@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS144 Lab 1</title>
+<meta name="description" content="Yao Yin's Personal Website">
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="all" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/css/jquery.mmenu.all.css" />
+<link rel="stylesheet" href="/css/highlightjs.piperita.css">
+
+<!-- Favicons generated at http://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
+<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="manifest" href="/favicons/manifest.json">
+<link rel="shortcut icon" href="/favicons/favicon.ico">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
+<meta name="msapplication-config" content="/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513c6fa83da6ec67"></script>
+
+
+
+
+</head>
+
+
+    <body>
+
+    <nav id="my-menu">
+  <div>
+    <p>Yao Yin's Cyberspace</p>
+
+    <ul class="pages">
+      <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="/posts/"><i class="fa fa-archive"></i> All Posts</a></li>
+      <li><a href="/search/"><i class="fa fa-search"></i> Search</a></li>
+      <li><a href="/biography/2021/05/14/about-me/"><i class="fa fa-id-card"></i> About Me</a></li>
+    </ul>
+
+    <p class="links">
+  <a href="https://www.twitter.com/CreamEggMeat" target="_new"><i class="fa fa-twitter"></i></a>
+  <a href="https://www.linkedin.com/in/yin-yao-54457b12a/" target="_new"><i class="fa fa-linkedin"></i></a>
+  
+  
+  
+  <a href="https://github.com/yao-yin" target="_new"><i class="fa fa-github-alt"></i></a>
+  
+  
+  
+  <a href="mailto:InYuo1997@gmail.com" target="_new"><i class="fa fa-envelope"></i></a>
+  <a href="/feed.xml" target="_new"><i class="fa fa-rss"></i></a>
+</p>
+
+  </div>
+</nav>
+<div class="menu-button" href="#menu"><i class="fa fa-bars"></i></div>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      
+
+<div class="container-fluid single">
+  <div class="row">
+
+    <div itemscope itemtype="http://schema.org/Article" class="col-md-12 article">
+      
+      <div class="thumb">
+        <i class="fa fa-ticket fa-4x"></i>
+      </div>
+      
+
+      <h1 class="header" itemprop="name">CS144 Lab 1</h1>
+
+      <div class="author">
+        <small><i>
+          
+          by
+          <span itemprop="author">
+            
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yao Yin</span>
+            </span>
+            
+          </span>
+          
+          on <span itemprop="datePublished" content="2014-08-28">June 20, 2021</span>
+           under CS144
+        </i></small>
+      </div>
+
+      <div class="read-time">
+        <small>
+          4 minute read
+        </small>
+      </div>
+
+      <div class="content-panel content">
+
+        
+
+        <span itemprop="articleBody"><p>上一个实验：<a href="(/cs144/2021/05/29/CS144-Lab-0.zh/)">Lab 0</a></p>
+
+<p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 在 vscode 上的 GDB 配置以及 Lab 1 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。</p>
+
+<h1 id="gdb-配置">GDB 配置</h1>
+
+<p>在 Lab 0 里我们不需要使用 GDB debug，但是在 Lab 1 里我们需要，这里是我配置 GDB 的办法，来源互联网。首先将 Lab 0 的分支代码 merge 到 Lab 1 的对应分支里。然后当前 <code class="language-plaintext highlighter-rouge">sponge</code> 文件夹内，新建一个名为 <code class="language-plaintext highlighter-rouge">.vscode</code> 的文件夹，其中里面有四个 json 文件，分别是：</p>
+
+<p>c_cpp_properties:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++-8",
+            "cStandard": "c11",
+            "intelliSenseMode": "linux-clang-x64",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+        }
+    ],
+    "version": 4
+}
+</code></pre></div></div>
+
+<p>launch.json:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "debug lab test",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/tests/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "debug webget",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/apps/webget",
+            "args": ["cs144.keithw.org", "/hello"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            // "preLaunchTask": "C/C++: g++ build active file",
+            "preLaunchTask": "build project",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "debug current file",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: g++ build active file",
+            "miDebuggerPath": "/usr/bin/gdb"
+        }
+    ]
+}
+</code></pre></div></div>
+
+<p>settings.json:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "debug.allowBreakpointsEverywhere": true,
+    "files.associations": {
+        "chrono": "cpp",
+        "random": "cpp",
+        "limits": "cpp",
+        "algorithm": "cpp"
+    }
+}
+</code></pre></div></div>
+
+<p>tasks.json:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "C/C++: g++ build active file",
+            "command": "/usr/bin/g++-8",
+            "args": [
+                "-g",
+                "${file}",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "build project",
+            "command": "cd build &amp;&amp; make -j8",
+            "args": [],
+        },
+    ],
+    "version": "2.0.0"
+}
+</code></pre></div></div>
+
+<p>在配置好这些文件之后，我们就可以愉快地（并不）使用 GDB debug 了。</p>
+
+<h1 id="lab-1">Lab 1</h1>
+
+<p>这个 Lab 的目标是写一个 <code class="language-plaintext highlighter-rouge">StreamReassembler</code>，它接受一些字符串和对应的 index，这里的 index 是字符串的第一个字符在 TCP 字节流的位置（起始值为0），按顺序拼好并传递给 Lab 0 实现的 <code class="language-plaintext highlighter-rouge">ByteStream</code>。</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<p>在开始写代码前，我们需要定义清楚一些问题，可以避免一些踩坑（我一开始没这么做，导致第一次快写完的时候整个重写了）。常见的需要定义清楚的问题有这么几个：</p>
+
+<p><strong>Q1：<code class="language-plaintext highlighter-rouge">unassembled bytes</code> 是什么？</strong></p>
+
+<p>A：是还未传递但是要传递给ByteStream的储存在StreamReassembler的字符数，其中如果不同的字符串有重叠部分的话，重叠部分只算一次；</p>
+
+<p>举个例子，假设我们有两个字符串，一个是<code class="language-plaintext highlighter-rouge">Happy</code>，它的 index 是0，另一个是<code class="language-plaintext highlighter-rouge">py anniversary</code>，它的 index 是3，那么可想而知，整个算下来应该是<code class="language-plaintext highlighter-rouge">Happy anniversary</code>，此时<code class="language-plaintext highlighter-rouge">unassembled bytes</code>值为17。</p>
+
+<p>再举个例子，假设我们还是有两个字符串，一个是<code class="language-plaintext highlighter-rouge">Ha</code>，它的 index 是0，另一个是<code class="language-plaintext highlighter-rouge">y anniversary</code>, 它的 index 是3，此时的<code class="language-plaintext highlighter-rouge">unassembled bytes</code>值为15，因为整个算下来是<code class="language-plaintext highlighter-rouge">Ha??y anniversary</code>，我们不知道也没有存<code class="language-plaintext highlighter-rouge">??</code>位置的字符，所以这两个位置是不计数的。</p>
+
+<p><strong>Q2：<code class="language-plaintext highlighter-rouge">capacity</code> 是对什么容量的限制？</strong></p>
+
+<p>A：文档里的图解释的挺清楚的，我这里再复述一遍，是 <code class="language-plaintext highlighter-rouge">StreamReassembler</code> 里储存的 index 最大的字符的 index 减去在 <code class="language-plaintext highlighter-rouge">ByteStream</code> 里还没有被读取的 index 最小的字符的 index 的上限加一，说起来有点弯弯绕，结合下面这个例子会比较好。</p>
+
+<p>假设 <code class="language-plaintext highlighter-rouge">ByteStream</code> 里还未读取的字符是<code class="language-plaintext highlighter-rouge">Happy</code>，<code class="language-plaintext highlighter-rouge">StreamReassembler</code> 里只有一个字符串，<code class="language-plaintext highlighter-rouge">ver</code>，它的index 是10，那么此时它占据的容量是13，因为组合到一起，是<code class="language-plaintext highlighter-rouge">Happy?????ver</code>，尽管我们不知道<code class="language-plaintext highlighter-rouge">?????</code>的内容，但是我们要为之预留空间。推广一下，如果读取的字符串有一部分超过了我们能接受的最大容量，即使我们有足够的内存，也要舍弃它，因为超出了<code class="language-plaintext highlighter-rouge">capacity</code>的限制。</p>
+
+<h2 id="design-the-core-data-structures">Design the core data structures</h2>
+
+<p>就这个 Lab 来讲，我们需要一个数据结构来维护没有读取的字符串，并且这些字符串是有序的（index），其实我一开始的想法是用堆，完成并 debug 后过了绝大部分的测试例，只有关于<code class="language-plaintext highlighter-rouge">unassembled bytes</code>的测试有问题，仔细研究定义（如上）后，决定推倒重新写。</p>
+
+<p>我们需要一个容器，可以容纳来自同一个字节流的字符串，并且我们需要跟踪字符数目，权衡之后我选择用<code class="language-plaintext highlighter-rouge">std::deque&lt;char&gt; _unassembled_bytes</code>来维护所有未传输给<code class="language-plaintext highlighter-rouge">ByteStream</code>的字符。如果这个队列空间不够存下下一个字符串的话，我们就扩大它，在整体不超过<code class="language-plaintext highlighter-rouge">capacity</code>的限制下存下尽量多的字符。这里问题来了，我们还需要思考，这个队列里存放的字符是不是已经读取的字符，比如我们读了<code class="language-plaintext highlighter-rouge">Happy?????ver</code>，这些<code class="language-plaintext highlighter-rouge">?</code>要如何表示，一开始我的想法是用<code class="language-plaintext highlighter-rouge">'\0'</code>表示，后来觉得如果字节流里有<code class="language-plaintext highlighter-rouge">'\0'</code>就不行，因此选用了另一个<code class="language-plaintext highlighter-rouge">std::deque&lt;bool&gt; _pos_checker</code>来记录<code class="language-plaintext highlighter-rouge">_unassembled_bytes</code>对应位置的字节是否是已经读取的字符，他们被同步更新，并且<code class="language-plaintext highlighter-rouge">_pos_checker</code>里<code class="language-plaintext highlighter-rouge">true</code>的数量就是<code class="language-plaintext highlighter-rouge">unassembled bytes</code>的数值。</p>
+
+<p>以下是一个更新字符串的实现：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void StreamReassembler::update_unassembled_bytes(const string &amp;data, const size_t index) {
+    int start_data_idx = max(0, static_cast&lt;int&gt;(_idx - index));
+    _max_idx = max(_max_idx, static_cast&lt;int&gt;(index + data.size()));
+    int target_right_bound = min(index + data.size(), _capacity - _output.buffer_size() + _idx);
+    if (target_right_bound &gt; _right_bound) {
+        // no space, need to expand it
+        for (int i = 0; i &lt; target_right_bound - _right_bound; i++) {
+            _unassembled_bytes.push_back('\0');
+            _pos_checker.push_back(false);
+        }
+        _right_bound = target_right_bound;
+    }
+    int start_deque_idx = start_data_idx + index - _idx;
+    for (int i = 0; i + start_data_idx &lt; static_cast&lt;int&gt;(data.size()) &amp;&amp; i + start_deque_idx &lt; static_cast&lt;int&gt;(_pos_checker.size());
+         i++) {
+        _unassembled_bytes[i + start_deque_idx] = data[i + start_data_idx];
+        if (!_pos_checker[i + start_deque_idx])
+            _unassembled_bytes_cnt++;
+        _pos_checker[i + start_deque_idx] = true;
+    }
+}
+</code></pre></div></div>
+
+<p>这里有一些变量需要解释：</p>
+
+<p><code class="language-plaintext highlighter-rouge">_idx</code>：deque 里第一个位置对应的 index</p>
+
+<p><code class="language-plaintext highlighter-rouge">_unassembled_bytes_cnt</code>：<code class="language-plaintext highlighter-rouge">unassembled bytes</code>的数值</p>
+
+<p><code class="language-plaintext highlighter-rouge">_right_bound</code>：deque 能储存的字符的最大 index 加一（恰好不能储存的序数）</p>
+
+<p><code class="language-plaintext highlighter-rouge">_max_idx</code>：已经得知存在的字符串最后一个字符的最大 index 加一，用来确定是否已经结束输入。假设我们的<code class="language-plaintext highlighter-rouge">StreamReassembler</code>要读取<code class="language-plaintext highlighter-rouge">Happy anniversary</code>，且 index 为0，可是由于容量限制，我们只能读取<code class="language-plaintext highlighter-rouge">Happy anniversar</code>，由于最后一个<code class="language-plaintext highlighter-rouge">y</code>是存在的，我们只是暂时存不下，<code class="language-plaintext highlighter-rouge">_max_idx</code>就是这个<code class="language-plaintext highlighter-rouge">y</code>对应的的 index 值，这个可以用来判断是否要给<code class="language-plaintext highlighter-rouge">ByteStream</code>传递输入结束的信号，不太好理解的话可以先跳过，看后续代码就清楚了。</p>
+
+<h2 id="implement-the-whole-class">Implement the whole class</h2>
+
+<p>由于我们的逻辑是尽可能地将字符传递给<code class="language-plaintext highlighter-rouge">ByteStream _output</code>，所以每次更新后都要尽量<code class="language-plaintext highlighter-rouge">write</code>。</p>
+
+<p>参考实现如下：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void StreamReassembler::push_substring(const string &amp;data, const size_t index, const bool eof) {
+    update_unassembled_bytes(data, index);
+    // read
+    while (_output.remaining_capacity() &amp;&amp; !_unassembled_bytes.empty() &amp;&amp; _pos_checker.front()) {
+        char curr = _unassembled_bytes.front();
+        string to_write(1, curr);
+        _unassembled_bytes.pop_front();
+        _pos_checker.pop_front();
+        _output.write(to_write);
+        _idx++;
+        _unassembled_bytes_cnt --;
+    }
+    if (eof) {
+        _eof = true;
+    }
+    if (_eof &amp;&amp; _idx == _max_idx) {
+        _output.end_input();
+    }
+}
+</code></pre></div></div>
+
+<p>其他函数代码：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>size_t StreamReassembler::unassembled_bytes() const { return _unassembled_bytes_cnt; }
+
+bool StreamReassembler::empty() const { return unassembled_bytes() == 0; }
+</code></pre></div></div>
+
+<h2 id="test-the-code">Test the code</h2>
+
+<p>我们在<code class="language-plaintext highlighter-rouge">build</code>目录下测试，和 Lab 0 类似：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ CXX=g++-8 cmake ..
+$ make format
+$ make -j4
+$ make check_lab0
+</code></pre></div></div>
+
+<p>如果通过的话可以得到类似输出。
+![lab1 success](/images/cs144_lab1_success.png</p>
+</span>
+
+        
+
+        
+        <div class="share">
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+          <div class="addthis_sharing_toolbox"></div>
+        </div>
+        
+
+        
+        <div class="tags">
+          <small>
+          <i class="fa fa-tags"></i>
+            CS144, computer networking
+          </small>
+        </div>
+        
+
+      </div>
+
+      
+      <div class="content-panel feedback">
+        I <i class="fa fa-heart"></i> feedback.<br />
+        Let me know what you think of this article on twitter <a href="http://www.twitter.com/CreamEggMeat">@CreamEggMeat</a> or leave a comment below!
+      </div>
+      
+
+      
+      <div class="content-panel comments">
+        <div id="disqus_thread">
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      </div>
+      
+
+      
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+function disqus_config() { this.experiment.enable_scroll_container = true; }
+var disqus_shortname = "yin-yao-github-io-1"; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+
+      </div>
+    </div>
+
+    <div class="footer clearfix">
+  <div class="col-md-6">
+    Made with <i class="fa fa-heart"></i> by <a href="https://twitter.com/CreamEggMeat">Yao Yin</a>
+  </div>
+  <div class="col-md-6">
+    &lt;/&gt; Jekyll theme by <a href="https://twitter.com/_JacobTomlinson">Jacob Tomlinson</a>&nbsp;<a class="fa fa-github-alt" href="https://github.com/jacobtomlinson/carte-noire"></a>
+  </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="/js/jquery.mmenu.min.all.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+      $("#my-menu").mmenu().on( "closed.mm", function() {
+            $(".menu-button").show();
+         });
+      $(".menu-button").click(function() {
+        $(".menu-button").hide();
+        $("#my-menu").trigger("open.mm");
+      });
+   });
+</script>
+
+
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20365477-4']);
+          _gaq.push(['_trackPageview']);
+  (function () {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+    </body>
+</html>
