@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS144 Lab 2</title>
+<meta name="description" content="Yao Yin's Personal Website">
+
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="all" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" media="all" href="/css/jquery.mmenu.all.css" />
+<link rel="stylesheet" href="/css/highlightjs.piperita.css">
+
+<!-- Favicons generated at http://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+<link rel="manifest" href="/favicons/site.webmanifest">
+<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+
+<!-- Go to www.addthis.com/dashboard to customize your tools -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513c6fa83da6ec67"></script>
+
+
+
+
+</head>
+
+
+    <body>
+
+    <nav id="my-menu">
+  <div>
+    <p>Yao Yin's Cyberspace</p>
+
+    <ul class="pages">
+      <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+      <li><a href="/posts/"><i class="fa fa-archive"></i> All Posts</a></li>
+      <li><a href="/search/"><i class="fa fa-search"></i> Search</a></li>
+      <li><a href="/biography/2021/05/14/about-me/"><i class="fa fa-id-card"></i> About Me</a></li>
+    </ul>
+
+    <p class="links">
+  <a href="https://www.twitter.com/CreamEggMeat" target="_new"><i class="fa fa-twitter"></i></a>
+  <a href="https://www.linkedin.com/in/yin-yao-54457b12a/" target="_new"><i class="fa fa-linkedin"></i></a>
+  
+  
+  
+  <a href="https://github.com/yao-yin" target="_new"><i class="fa fa-github-alt"></i></a>
+  
+  
+  
+  <a href="mailto:InYuo1997@gmail.com" target="_new"><i class="fa fa-envelope"></i></a>
+  <a href="/feed.xml" target="_new"><i class="fa fa-rss"></i></a>
+</p>
+
+  </div>
+</nav>
+<div class="menu-button" href="#menu"><i class="fa fa-bars"></i></div>
+
+
+    <div class="page-content">
+      <div class="wrap">
+      
+
+<div class="container-fluid single">
+  <div class="row">
+
+    <div itemscope itemtype="http://schema.org/Article" class="col-md-12 article">
+      
+      <div class="thumb">
+        <i class="fa fa-ticket fa-4x"></i>
+      </div>
+      
+
+      <h1 class="header" itemprop="name">CS144 Lab 2</h1>
+
+      <div class="author">
+        <small><i>
+          
+          by
+          <span itemprop="author">
+            
+            <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+              <span itemprop="name">Yao Yin</span>
+            </span>
+            
+          </span>
+          
+          on <span itemprop="datePublished" content="2014-08-28">July 3, 2021</span>
+           under CS144
+        </i></small>
+      </div>
+
+      <div class="read-time">
+        <small>
+          2 minute read
+        </small>
+      </div>
+
+      <div class="content-panel content">
+
+        
+
+        <span itemprop="articleBody"><p>上一个实验：<a href="/cs144/2021/06/20/cs144-lab-1/">Lab 1</a></p>
+
+<p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> Lab 2 的思路和代码。</p>
+
+<h1 id="lab-2">Lab 2</h1>
+
+<p>这个 Lab 的目标是写一个 TCP receiver，它支持三个功能：</p>
+
+<ul>
+  <li>可以接受一个 <code class="language-plaintext highlighter-rouge">TCPSegment</code>，并把其中的数据传给上一个 Lab 实现的 StreamReassembler；</li>
+  <li>支持查询 <code class="language-plaintext highlighter-rouge">ackno</code>，也就是被排列好的最后一个字符的序数 +1；</li>
+  <li>支持查询 <code class="language-plaintext highlighter-rouge">window_size</code>，也就是滑动窗口里剩下的空间。</li>
+</ul>
+
+<p>在 <code class="language-plaintext highlighter-rouge">git merge origin/lab2-startercode</code> 合并 Lab 2 的代码后，我们就可以开始啦。</p>
+
+<h2 id="translating-between-64-bit-indexes-and-32-bit-seqnos">Translating between 64-bit indexes and 32-bit seqnos</h2>
+
+<p>为了达成这三个目的，我们需要先弄清楚这三个序数的定义：</p>
+
+<ul>
+  <li>Sequence Numbers, 记为 SN</li>
+  <li>Absolute Sequence Numbers，记为 ASN</li>
+  <li>Stream Indices，记为 SI</li>
+</ul>
+
+<p>这三个数的定义在原文档我就不复制了，简单说一下他们的关系：</p>
+
+<ul>
+  <li>SN = (ASN + ISN) &amp; (0xFFFFFFFF) （取最低32位）</li>
+  <li>SI = ASN - 1</li>
+</ul>
+
+<p>我们还需要一个把 <code class="language-plaintext highlighter-rouge">WrappingInt32</code> 转换为 <code class="language-plaintext highlighter-rouge">uint54_t</code> 的转换函数：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>uint64_t wrappingInt32_to_uint64(WrappingInt32 n) { 
+    return static_cast&lt;uint64_t&gt;(n.raw_value()); 
+}
+</code></pre></div></div>
+
+<p>在它的帮助下，我们可以写出 <code class="language-plaintext highlighter-rouge">wrap</code> 函数：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>WrappingInt32 wrap(uint64_t n, WrappingInt32 isn) {
+    uint64_t res = n + wrappingInt32_to_uint64(isn);
+    res &amp;= 0xFFFFFFFF;
+    return WrappingInt32{static_cast&lt;uint32_t&gt;(res)};
+}
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">unwrap</code> 函数稍微复杂一些。由于 CS144 lab 都是有测试例的，所以即使一些方法可以帮助我们完成主要目标（指实现 <code class="language-plaintext highlighter-rouge">TCPReceiver</code>），但想完成 Lab 的话不能绕过这些测试例。比如这里，其实我们可以返回比 <code class="language-plaintext highlighter-rouge">checkpoint</code> 大的最小满足条件的数，但是由于 Lab 已经规定好了 <code class="language-plaintext highlighter-rouge">unwrap</code> 是寻找最接近的数，因此还是得按要求来。参考代码如下:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
+    uint64_t res = wrappingInt32_to_uint64(n) - wrappingInt32_to_uint64(isn);
+    res &amp;= 0xFFFFFFFF;
+    uint64_t first_part = checkpoint &amp; 0xFFFFFFFF00000000;
+    res |= first_part;
+    uint64_t alternative = res;
+    if (res &lt; checkpoint) {
+        alternative = res + (1ul &lt;&lt; 32);
+        return alternative - checkpoint &gt;= checkpoint - res ? res : alternative;
+    } else if (res &gt; checkpoint) {
+        if (res &lt; (1ul &lt;&lt; 32))
+            return res;
+        alternative = res - (1ul &lt;&lt; 32);
+        return checkpoint - alternative &gt;= res - checkpoint ? res : alternative;
+    }
+    return res;
+}
+</code></pre></div></div>
+
+<p>这部分可以在 <code class="language-plaintext highlighter-rouge">build</code> 目录下编译并测试，和之前类似：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ CXX=g++-8 cmake ..
+$ make format
+$ make -j4
+$ ctest -R wrap
+</code></pre></div></div>
+
+<p>通过的话会得到类似字样：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   0.14 sec
+</code></pre></div></div>
+
+<p>在这些函数的帮助下，我们可以开始实现 <code class="language-plaintext highlighter-rouge">TCPreceiver</code> 了。</p>
+
+<h3 id="implementing-the-tcp-receiver">Implementing the TCP receiver</h3>
+
+<p>正如同文档所说，这个 Lab 没有什么需要构造的数据结构，但是我们需要对很多数值的定义小心。
+由于 ISN 指代的是 SYN 的 SN，所以除了第一个带有 SYN 的 <code class="language-plaintext highlighter-rouge">TCPsegment</code> 以外，在我们计算其他的 <code class="language-plaintext highlighter-rouge">TCPSegment</code> 的 payload 对应的 SI 时，都需要减一。另外需要注意的是如果没有收到 SYN 信号的话，我们应该抛弃所有的 <code class="language-plaintext highlighter-rouge">TCPSegment</code>，因为这个时候我们的 <code class="language-plaintext highlighter-rouge">TCPReceiver</code> 还没准备好接受分段，这里我们维护变量 <code class="language-plaintext highlighter-rouge">initFlag</code> 来记载是否接收到了 <code class="language-plaintext highlighter-rouge">SYN</code>。</p>
+
+<p>参考代码：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void TCPReceiver::segment_received(const TCPSegment &amp;seg) {
+    if (seg.header().syn) {
+        // initialize ISN
+        ISN = seg.header().seqno;
+        initFlag = true;
+    } else if (!initFlag) {
+        return;
+    }
+    size_t stream_idx = unwrap(seg.header().seqno, ISN, _reassembler.stream_out().bytes_written());
+    if (!seg.header().syn)
+        stream_idx -= 1;
+    _reassembler.push_substring(seg.payload().copy(), stream_idx, seg.header().fin);
+}
+
+optional&lt;WrappingInt32&gt; TCPReceiver::ackno() const {
+    size_t abs_idx = _reassembler.stream_out().bytes_written();
+    if (!initFlag)
+        return {};
+    abs_idx++;
+    if (_reassembler.stream_out().input_ended())
+        abs_idx++;
+    return wrap(abs_idx, ISN);
+}
+
+size_t TCPReceiver::window_size() const { 
+    return _reassembler.stream_out().remaining_capacity(); 
+}
+</code></pre></div></div>
+
+<p>完成后我们在<code class="language-plaintext highlighter-rouge">build</code>目录下编译并测试，和之前类似：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ CXX=g++-8 cmake ..
+$ make format
+$ make -j4
+$ make check_lab2
+</code></pre></div></div>
+
+<p>通过的话会得到类似字样：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100% tests passed, 0 tests failed out of 26
+
+Total Test time (real) =   0.82 sec
+</code></pre></div></div>
+</span>
+
+        
+
+        
+        <div class="share">
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+          <div class="addthis_sharing_toolbox"></div>
+        </div>
+        
+
+        
+        <div class="tags">
+          <small>
+          <i class="fa fa-tags"></i>
+            CS144, computer networking
+          </small>
+        </div>
+        
+
+      </div>
+
+      
+      <div class="content-panel feedback">
+        I <i class="fa fa-heart"></i> feedback.<br />
+        Let me know what you think of this article on twitter <a href="http://www.twitter.com/CreamEggMeat">@CreamEggMeat</a> or leave a comment below!
+      </div>
+      
+
+      
+      <div class="content-panel comments">
+        <div id="disqus_thread">
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div>
+      </div>
+      
+
+      
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+function disqus_config() { this.experiment.enable_scroll_container = true; }
+var disqus_shortname = "yin-yao-github-io-1"; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+
+
+      </div>
+    </div>
+
+    <div class="footer clearfix">
+  <div class="col-md-6">
+    Made with <i class="fa fa-heart"></i> by <a href="https://twitter.com/CreamEggMeat">Yao Yin</a>
+  </div>
+  <div class="col-md-6">
+    &lt;/&gt; Jekyll theme by <a href="https://twitter.com/_JacobTomlinson">Jacob Tomlinson</a>&nbsp;<a class="fa fa-github-alt" href="https://github.com/jacobtomlinson/carte-noire"></a>
+  </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="/js/jquery.mmenu.min.all.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+   $(document).ready(function() {
+      $("#my-menu").mmenu().on( "closed.mm", function() {
+            $(".menu-button").show();
+         });
+      $(".menu-button").click(function() {
+        $(".menu-button").hide();
+        $("#my-menu").trigger("open.mm");
+      });
+   });
+</script>
+
+
+
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20365477-4']);
+          _gaq.push(['_trackPageview']);
+  (function () {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+
+
+    </body>
+</html>

@@ -14,24 +14,12 @@
 <link rel="stylesheet" href="/css/highlightjs.piperita.css">
 
 <!-- Favicons generated at http://realfavicongenerator.net/ -->
-<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
-<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
-<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="/favicons/manifest.json">
-<link rel="shortcut icon" href="/favicons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+<link rel="manifest" href="/favicons/site.webmanifest">
+<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
 <meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
-<meta name="msapplication-config" content="/favicons/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
 
 
@@ -119,7 +107,7 @@
 
         
 
-        <span itemprop="articleBody"><p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 的实验环境配置以及 Lab 0 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。</p>
+        <span itemprop="articleBody"><p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 的实验环境配置以及 Lab 0 的思路和代码。</p>
 
 <h1 id="环境配置">环境配置</h1>
 
@@ -169,10 +157,10 @@
 <p>除了 <code class="language-plaintext highlighter-rouge">buf</code> 之外我还用了几个变量来储存一些信息。</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">int MAX_CAPACITY</code> 用来设定最大容量</li>
-  <li><code class="language-plaintext highlighter-rouge">int REMAIN_CAPACITY</code> 用来记录剩余容量</li>
-  <li><code class="language-plaintext highlighter-rouge">int _byte_written</code> 用来记录一共写入的字符数，注意这个是包括读取后，现在不在 <code class="language-plaintext highlighter-rouge">buf</code> 里的字符数的，是历史写入的总和</li>
-  <li><code class="language-plaintext highlighter-rouge">int _byte_read</code> 用来记录一共读取的字符数</li>
+  <li><code class="language-plaintext highlighter-rouge">size_t MAX_CAPACITY</code> 用来设定最大容量</li>
+  <li><code class="language-plaintext highlighter-rouge">size_t REMAIN_CAPACITY</code> 用来记录剩余容量</li>
+  <li><code class="language-plaintext highlighter-rouge">size_t _byte_written</code> 用来记录一共写入的字符数，注意这个是包括读取后，现在不在 <code class="language-plaintext highlighter-rouge">buf</code> 里的字符数的，是历史写入的总和</li>
+  <li><code class="language-plaintext highlighter-rouge">size_t _byte_read</code> 用来记录一共读取的字符数</li>
   <li><code class="language-plaintext highlighter-rouge">bool _input_ended</code> 用来记录是否已经输入完成了</li>
 </ul>
 
@@ -184,7 +172,7 @@
 }
 
 size_t ByteStream::write(const string &amp;data) {
-    int byteCount = 0;
+    size_t byteCount = 0;
     for (auto &amp;&amp;c : data) {
         if (REMAIN_CAPACITY == 0) {
             set_error();
@@ -233,7 +221,7 @@ bool ByteStream::eof() const {
 </code></pre></div></div>
 
 <p>基本上还是比较直白的，不需要太多介绍。
-实现完之后可以通过以下指令来测试自己的代码。</p>
+实现完之后可以在 <code class="language-plaintext highlighter-rouge">build</code> 目录下通过以下命令来编译并测试自己的代码：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ CXX=g++-8 cmake ..
 $ make format
@@ -241,10 +229,14 @@ $ make -j4
 $ make check_lab0
 </code></pre></div></div>
 
-<p>如果通过的话可以得到类似的输出。
-<img src="/images/cs144_lab0_success.png" alt="lab0 success" /></p>
+<p>通过的话会得到类似字样：</p>
 
-<p>下一个实验：<a href="(/cs144/2021/06/20/CS144-Lab-1.zh/)">Lab 1</a></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   1.36 sec
+</code></pre></div></div>
+
+<p>下一个实验：<a href="/cs144/2021/06/20/cs144-lab-1/">Lab 1</a></p>
 </span>
 
         

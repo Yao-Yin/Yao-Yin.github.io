@@ -5,19 +5,172 @@
     <description>Yao Yin's Personal Website</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 20 Jun 2021 18:15:34 +0900</pubDate>
-    <lastBuildDate>Sun, 20 Jun 2021 18:15:34 +0900</lastBuildDate>
+    <pubDate>Sat, 03 Jul 2021 19:03:28 +0900</pubDate>
+    <lastBuildDate>Sat, 03 Jul 2021 19:03:28 +0900</lastBuildDate>
     <generator>Jekyll v3.9.0</generator>
     
       <item>
-        <title>CS144 Lab 1</title>
-        <description>&lt;p&gt;上一个实验：&lt;a href=&quot;(/cs144/2021/05/29/CS144-Lab-0.zh/)&quot;&gt;Lab 0&lt;/a&gt;&lt;/p&gt;
+        <title>CS144 Lab 2</title>
+        <description>&lt;p&gt;上一个实验：&lt;a href=&quot;/cs144/2021/06/20/cs144-lab-1/&quot;&gt;Lab 1&lt;/a&gt;&lt;/p&gt;
 
-&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 在 vscode 上的 GDB 配置以及 Lab 1 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。&lt;/p&gt;
+&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; Lab 2 的思路和代码。&lt;/p&gt;
+
+&lt;h1 id=&quot;lab-2&quot;&gt;Lab 2&lt;/h1&gt;
+
+&lt;p&gt;这个 Lab 的目标是写一个 TCP receiver，它支持三个功能：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;可以接受一个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSegment&lt;/code&gt;，并把其中的数据传给上一个 Lab 实现的 StreamReassembler；&lt;/li&gt;
+  &lt;li&gt;支持查询 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ackno&lt;/code&gt;，也就是被排列好的最后一个字符的序数 +1；&lt;/li&gt;
+  &lt;li&gt;支持查询 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;window_size&lt;/code&gt;，也就是滑动窗口里剩下的空间。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;git merge origin/lab2-startercode&lt;/code&gt; 合并 Lab 2 的代码后，我们就可以开始啦。&lt;/p&gt;
+
+&lt;h2 id=&quot;translating-between-64-bit-indexes-and-32-bit-seqnos&quot;&gt;Translating between 64-bit indexes and 32-bit seqnos&lt;/h2&gt;
+
+&lt;p&gt;为了达成这三个目的，我们需要先弄清楚这三个序数的定义：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Sequence Numbers, 记为 SN&lt;/li&gt;
+  &lt;li&gt;Absolute Sequence Numbers，记为 ASN&lt;/li&gt;
+  &lt;li&gt;Stream Indices，记为 SI&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;这三个数的定义在原文档我就不复制了，简单说一下他们的关系：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;SN = (ASN + ISN) &amp;amp; (0xFFFFFFFF) （取最低32位）&lt;/li&gt;
+  &lt;li&gt;SI = ASN - 1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;我们还需要一个把 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WrappingInt32&lt;/code&gt; 转换为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;uint54_t&lt;/code&gt; 的转换函数：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;uint64_t wrappingInt32_to_uint64(WrappingInt32 n) { 
+    return static_cast&amp;lt;uint64_t&amp;gt;(n.raw_value()); 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在它的帮助下，我们可以写出 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;wrap&lt;/code&gt; 函数：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;WrappingInt32 wrap(uint64_t n, WrappingInt32 isn) {
+    uint64_t res = n + wrappingInt32_to_uint64(isn);
+    res &amp;amp;= 0xFFFFFFFF;
+    return WrappingInt32{static_cast&amp;lt;uint32_t&amp;gt;(res)};
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unwrap&lt;/code&gt; 函数稍微复杂一些。由于 CS144 lab 都是有测试例的，所以即使一些方法可以帮助我们完成主要目标（指实现 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPReceiver&lt;/code&gt;），但想完成 Lab 的话不能绕过这些测试例。比如这里，其实我们可以返回比 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;checkpoint&lt;/code&gt; 大的最小满足条件的数，但是由于 Lab 已经规定好了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unwrap&lt;/code&gt; 是寻找最接近的数，因此还是得按要求来。参考代码如下:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) {
+    uint64_t res = wrappingInt32_to_uint64(n) - wrappingInt32_to_uint64(isn);
+    res &amp;amp;= 0xFFFFFFFF;
+    uint64_t first_part = checkpoint &amp;amp; 0xFFFFFFFF00000000;
+    res |= first_part;
+    uint64_t alternative = res;
+    if (res &amp;lt; checkpoint) {
+        alternative = res + (1ul &amp;lt;&amp;lt; 32);
+        return alternative - checkpoint &amp;gt;= checkpoint - res ? res : alternative;
+    } else if (res &amp;gt; checkpoint) {
+        if (res &amp;lt; (1ul &amp;lt;&amp;lt; 32))
+            return res;
+        alternative = res - (1ul &amp;lt;&amp;lt; 32);
+        return checkpoint - alternative &amp;gt;= res - checkpoint ? res : alternative;
+    }
+    return res;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;这部分可以在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build&lt;/code&gt; 目录下编译并测试，和之前类似：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ CXX=g++-8 cmake ..
+$ make format
+$ make -j4
+$ ctest -R wrap
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过的话会得到类似字样：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   0.14 sec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;在这些函数的帮助下，我们可以开始实现 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPreceiver&lt;/code&gt; 了。&lt;/p&gt;
+
+&lt;h3 id=&quot;implementing-the-tcp-receiver&quot;&gt;Implementing the TCP receiver&lt;/h3&gt;
+
+&lt;p&gt;正如同文档所说，这个 Lab 没有什么需要构造的数据结构，但是我们需要对很多数值的定义小心。
+由于 ISN 指代的是 SYN 的 SN，所以除了第一个带有 SYN 的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPsegment&lt;/code&gt; 以外，在我们计算其他的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSegment&lt;/code&gt; 的 payload 对应的 SI 时，都需要减一。另外需要注意的是如果没有收到 SYN 信号的话，我们应该抛弃所有的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPSegment&lt;/code&gt;，因为这个时候我们的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TCPReceiver&lt;/code&gt; 还没准备好接受分段，这里我们维护变量 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;initFlag&lt;/code&gt; 来记载是否接收到了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;SYN&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;参考代码：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;void TCPReceiver::segment_received(const TCPSegment &amp;amp;seg) {
+    if (seg.header().syn) {
+        // initialize ISN
+        ISN = seg.header().seqno;
+        initFlag = true;
+    } else if (!initFlag) {
+        return;
+    }
+    size_t stream_idx = unwrap(seg.header().seqno, ISN, _reassembler.stream_out().bytes_written());
+    if (!seg.header().syn)
+        stream_idx -= 1;
+    _reassembler.push_substring(seg.payload().copy(), stream_idx, seg.header().fin);
+}
+
+optional&amp;lt;WrappingInt32&amp;gt; TCPReceiver::ackno() const {
+    size_t abs_idx = _reassembler.stream_out().bytes_written();
+    if (!initFlag)
+        return {};
+    abs_idx++;
+    if (_reassembler.stream_out().input_ended())
+        abs_idx++;
+    return wrap(abs_idx, ISN);
+}
+
+size_t TCPReceiver::window_size() const { 
+    return _reassembler.stream_out().remaining_capacity(); 
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;完成后我们在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build&lt;/code&gt;目录下编译并测试，和之前类似：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ CXX=g++-8 cmake ..
+$ make format
+$ make -j4
+$ make check_lab2
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过的话会得到类似字样：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;100% tests passed, 0 tests failed out of 26
+
+Total Test time (real) =   0.82 sec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Sat, 03 Jul 2021 00:00:00 +0900</pubDate>
+        <link>http://localhost:4000/cs144/2021/07/03/cs144-lab-2/</link>
+        <guid isPermaLink="true">http://localhost:4000/cs144/2021/07/03/cs144-lab-2/</guid>
+        
+        <category>CS144</category>
+        
+        <category>computer networking</category>
+        
+        
+        <category>CS144</category>
+        
+      </item>
+    
+      <item>
+        <title>CS144 Lab 1</title>
+        <description>&lt;p&gt;上一个实验：&lt;a href=&quot;/cs144/2021/05/29/cs144-lab-0/&quot;&gt;Lab 0&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 在 vscode 上的 GDB 配置以及 Lab 1 的思路和代码。&lt;/p&gt;
 
 &lt;h1 id=&quot;gdb-配置&quot;&gt;GDB 配置&lt;/h1&gt;
 
-&lt;p&gt;在 Lab 0 里我们不需要使用 GDB debug，但是在 Lab 1 里我们需要，这里是我配置 GDB 的办法，来源互联网。首先将 Lab 0 的分支代码 merge 到 Lab 1 的对应分支里。然后当前 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sponge&lt;/code&gt; 文件夹内，新建一个名为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.vscode&lt;/code&gt; 的文件夹，其中里面有四个 json 文件，分别是：&lt;/p&gt;
+&lt;p&gt;在 Lab 0 里我们不需要使用 GDB debug，但是在 Lab 1 里我们需要，这里是我配置 GDB 的办法，来源&lt;a href=&quot;https://segmentfault.com/a/1190000039087458&quot;&gt;wine99 的博客&lt;/a&gt;，结合自己的系统情况修改了一下。首先将 Lab 0 的分支代码 merge 到 Lab 1 的对应分支里。然后当前 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sponge&lt;/code&gt; 文件夹内，新建一个名为 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.vscode&lt;/code&gt; 的文件夹，其中里面有四个 json 文件，分别是：&lt;/p&gt;
 
 &lt;p&gt;c_cpp_properties:&lt;/p&gt;
 
@@ -26,7 +179,8 @@
         {
             &quot;name&quot;: &quot;Linux&quot;,
             &quot;includePath&quot;: [
-                &quot;${workspaceFolder}/**&quot;
+                &quot;${workspaceFolder}/**&quot;,
+                &quot;${workspaceFolder}/libsponge/**&quot;
             ],
             &quot;defines&quot;: [],
             &quot;compilerPath&quot;: &quot;/usr/bin/g++-8&quot;,
@@ -175,41 +329,40 @@
 
 &lt;p&gt;&lt;strong&gt;Q1：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt; 是什么？&lt;/strong&gt;&lt;/p&gt;
 
-&lt;p&gt;A：是还未传递但是要传递给ByteStream的储存在StreamReassembler的字符数，其中如果不同的字符串有重叠部分的话，重叠部分只算一次；&lt;/p&gt;
+&lt;p&gt;A：是还未传递但是要传递给 ByteStream 的储存在 StreamReassembler 的字符数，其中如果不同的字符串有重叠部分的话，重叠部分只算一次；&lt;/p&gt;
 
-&lt;p&gt;举个例子，假设我们有两个字符串，一个是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy&lt;/code&gt;，它的 index 是0，另一个是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;py anniversary&lt;/code&gt;，它的 index 是3，那么可想而知，整个算下来应该是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy anniversary&lt;/code&gt;，此时&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt;值为17。&lt;/p&gt;
+&lt;p&gt;举个例子，假设我们有两个字符串，一个是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy&lt;/code&gt;，它的 index 是 0，另一个是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;py anniversary&lt;/code&gt;，它的 index 是 3，那么可想而知，整个算下来应该是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy anniversary&lt;/code&gt;，此时 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt; 值为17。&lt;/p&gt;
 
-&lt;p&gt;再举个例子，假设我们还是有两个字符串，一个是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ha&lt;/code&gt;，它的 index 是0，另一个是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y anniversary&lt;/code&gt;, 它的 index 是3，此时的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt;值为15，因为整个算下来是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ha??y anniversary&lt;/code&gt;，我们不知道也没有存&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;??&lt;/code&gt;位置的字符，所以这两个位置是不计数的。&lt;/p&gt;
+&lt;p&gt;再举个例子，假设我们还是有两个字符串，一个是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ha&lt;/code&gt;，它的 index 是 0，另一个是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y anniversary&lt;/code&gt;, 它的 index 是 3，此时的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt; 值为 15，因为整个算下来是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Ha??y anniversary&lt;/code&gt;，我们不知道也没有存 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;??&lt;/code&gt; 位置的字符，所以这两个位置是不计数的。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Q2：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capacity&lt;/code&gt; 是对什么容量的限制？&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;A：文档里的图解释的挺清楚的，我这里再复述一遍，是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StreamReassembler&lt;/code&gt; 里储存的 index 最大的字符的 index 减去在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt; 里还没有被读取的 index 最小的字符的 index 的上限加一，说起来有点弯弯绕，结合下面这个例子会比较好。&lt;/p&gt;
 
-&lt;p&gt;假设 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt; 里还未读取的字符是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy&lt;/code&gt;，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StreamReassembler&lt;/code&gt; 里只有一个字符串，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ver&lt;/code&gt;，它的index 是10，那么此时它占据的容量是13，因为组合到一起，是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy?????ver&lt;/code&gt;，尽管我们不知道&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?????&lt;/code&gt;的内容，但是我们要为之预留空间。推广一下，如果读取的字符串有一部分超过了我们能接受的最大容量，即使我们有足够的内存，也要舍弃它，因为超出了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capacity&lt;/code&gt;的限制。&lt;/p&gt;
+&lt;p&gt;假设 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt; 里还未读取的字符是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy&lt;/code&gt;，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StreamReassembler&lt;/code&gt; 里只有一个字符串，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ver&lt;/code&gt;，它的index 是 10，那么此时它占据的容量是 13，因为组合到一起，是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy?????ver&lt;/code&gt;，尽管我们不知道 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?????&lt;/code&gt; 的内容，但是我们要为之预留空间。推广一下，如果读取的字符串有一部分超过了我们能接受的最大容量，即使我们有足够的内存，也要舍弃它，因为超出了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capacity&lt;/code&gt; 的限制。&lt;/p&gt;
 
 &lt;h2 id=&quot;design-the-core-data-structures&quot;&gt;Design the core data structures&lt;/h2&gt;
 
-&lt;p&gt;就这个 Lab 来讲，我们需要一个数据结构来维护没有读取的字符串，并且这些字符串是有序的（index），其实我一开始的想法是用堆，完成并 debug 后过了绝大部分的测试例，只有关于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt;的测试有问题，仔细研究定义（如上）后，决定推倒重新写。&lt;/p&gt;
+&lt;p&gt;就这个 Lab 来讲，我们需要一个数据结构来维护没有读取的字符串，并且这些字符串是有序的（index），其实我一开始的想法是用堆，完成并 debug 后过了绝大部分的测试例，只有关于 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt; 的测试有问题，仔细研究定义（如上）后，决定推倒重新写。&lt;/p&gt;
 
-&lt;p&gt;我们需要一个容器，可以容纳来自同一个字节流的字符串，并且我们需要跟踪字符数目，权衡之后我选择用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::deque&amp;lt;char&amp;gt; _unassembled_bytes&lt;/code&gt;来维护所有未传输给&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt;的字符。如果这个队列空间不够存下下一个字符串的话，我们就扩大它，在整体不超过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capacity&lt;/code&gt;的限制下存下尽量多的字符。这里问题来了，我们还需要思考，这个队列里存放的字符是不是已经读取的字符，比如我们读了&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy?????ver&lt;/code&gt;，这些&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?&lt;/code&gt;要如何表示，一开始我的想法是用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;'\0'&lt;/code&gt;表示，后来觉得如果字节流里有&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;'\0'&lt;/code&gt;就不行，因此选用了另一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::deque&amp;lt;bool&amp;gt; _pos_checker&lt;/code&gt;来记录&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_unassembled_bytes&lt;/code&gt;对应位置的字节是否是已经读取的字符，他们被同步更新，并且&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_pos_checker&lt;/code&gt;里&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt;的数量就是&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt;的数值。&lt;/p&gt;
+&lt;p&gt;我们需要一个容器，可以容纳来自同一个字节流的字符串，并且我们需要跟踪字符数目，权衡之后我选择用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::deque&amp;lt;char&amp;gt; _unassembled_bytes&lt;/code&gt; 来维护所有未传输给 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt; 的字符。如果这个队列空间不够存下下一个字符串的话，我们就扩大它，在整体不超过 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capacity&lt;/code&gt; 的限制下存下尽量多的字符。这里问题来了，我们还需要思考，这个队列里存放的字符是不是已经读取的字符，比如我们读了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy?????ver&lt;/code&gt;，这些 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;?&lt;/code&gt; 要如何表示，一开始我的想法是用 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;'\0'&lt;/code&gt; 表示，后来觉得如果字节流里有 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;'\0'&lt;/code&gt; 就不行，因此选用了另一个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::deque&amp;lt;bool&amp;gt; _pos_checker&lt;/code&gt;  来记录 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_unassembled_bytes&lt;/code&gt; 对应位置的字节是否是已经读取的字符，他们被同步更新，并且 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_pos_checker&lt;/code&gt; 里 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;true&lt;/code&gt; 的数量就是 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt; 的数值。&lt;/p&gt;
 
 &lt;p&gt;以下是一个更新字符串的实现：&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;void StreamReassembler::update_unassembled_bytes(const string &amp;amp;data, const size_t index) {
-    int start_data_idx = max(0, static_cast&amp;lt;int&amp;gt;(_idx - index));
-    _max_idx = max(_max_idx, static_cast&amp;lt;int&amp;gt;(index + data.size()));
-    int target_right_bound = min(index + data.size(), _capacity - _output.buffer_size() + _idx);
+    size_t start_data_idx = max(0, static_cast&amp;lt;int&amp;gt;(_idx) - static_cast&amp;lt;int&amp;gt;(index));
+    _max_idx = max(_max_idx, index + data.size());
+    size_t target_right_bound = min(index + data.size(), _capacity - _output.buffer_size() + _idx);
     if (target_right_bound &amp;gt; _right_bound) {
         // no space, need to expand it
-        for (int i = 0; i &amp;lt; target_right_bound - _right_bound; i++) {
+        for (size_t i = 0; i &amp;lt; target_right_bound - _right_bound; i++) {
             _unassembled_bytes.push_back('\0');
             _pos_checker.push_back(false);
         }
         _right_bound = target_right_bound;
     }
-    int start_deque_idx = start_data_idx + index - _idx;
-    for (int i = 0; i + start_data_idx &amp;lt; static_cast&amp;lt;int&amp;gt;(data.size()) &amp;amp;&amp;amp; i + start_deque_idx &amp;lt; static_cast&amp;lt;int&amp;gt;(_pos_checker.size());
-         i++) {
+    size_t start_deque_idx = start_data_idx + index - _idx;
+    for (size_t i = 0; i + start_data_idx &amp;lt; data.size() &amp;amp;&amp;amp; i + start_deque_idx &amp;lt; _pos_checker.size(); i++) {
         _unassembled_bytes[i + start_deque_idx] = data[i + start_data_idx];
         if (!_pos_checker[i + start_deque_idx])
             _unassembled_bytes_cnt++;
@@ -222,15 +375,15 @@
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_idx&lt;/code&gt;：deque 里第一个位置对应的 index&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_unassembled_bytes_cnt&lt;/code&gt;：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt;的数值&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_unassembled_bytes_cnt&lt;/code&gt;：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;unassembled bytes&lt;/code&gt; 的数值&lt;/p&gt;
 
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_right_bound&lt;/code&gt;：deque 能储存的字符的最大 index 加一（恰好不能储存的序数）&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_max_idx&lt;/code&gt;：已经得知存在的字符串最后一个字符的最大 index 加一，用来确定是否已经结束输入。假设我们的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StreamReassembler&lt;/code&gt;要读取&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy anniversary&lt;/code&gt;，且 index 为0，可是由于容量限制，我们只能读取&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy anniversar&lt;/code&gt;，由于最后一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt;是存在的，我们只是暂时存不下，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_max_idx&lt;/code&gt;就是这个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt;对应的的 index 值，这个可以用来判断是否要给&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt;传递输入结束的信号，不太好理解的话可以先跳过，看后续代码就清楚了。&lt;/p&gt;
+&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_max_idx&lt;/code&gt;：已经得知存在的字符串最后一个字符的最大 index 加一，用来确定是否已经结束输入。假设我们的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;StreamReassembler&lt;/code&gt; 要读取 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy anniversary&lt;/code&gt;，且 index 为 0，可是由于容量限制，我们只能读取 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Happy anniversar&lt;/code&gt;，由于最后一个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt; 是存在的，我们只是暂时存不下，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_max_idx&lt;/code&gt; 就是这个 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;y&lt;/code&gt; 对应的的 index 值，这个可以用来判断是否要给 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream&lt;/code&gt; 传递输入结束的信号，不太好理解的话可以先跳过，看后续代码就清楚了。&lt;/p&gt;
 
 &lt;h2 id=&quot;implement-the-whole-class&quot;&gt;Implement the whole class&lt;/h2&gt;
 
-&lt;p&gt;由于我们的逻辑是尽可能地将字符传递给&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream _output&lt;/code&gt;，所以每次更新后都要尽量&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;write&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;由于我们的逻辑是尽可能地将字符传递给 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ByteStream _output&lt;/code&gt;，所以每次更新后都要尽量 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;write&lt;/code&gt;。&lt;/p&gt;
 
 &lt;p&gt;参考实现如下：&lt;/p&gt;
 
@@ -262,22 +415,26 @@
 bool StreamReassembler::empty() const { return unassembled_bytes() == 0; }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;h2 id=&quot;test-the-code&quot;&gt;Test the code&lt;/h2&gt;
-
-&lt;p&gt;我们在&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build&lt;/code&gt;目录下测试，和 Lab 0 类似：&lt;/p&gt;
+&lt;p&gt;完成后我们在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build&lt;/code&gt; 目录下编译并测试，和之前类似：&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ CXX=g++-8 cmake ..
 $ make format
 $ make -j4
-$ make check_lab0
+$ make check_lab1
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;如果通过的话可以得到类似输出。
-![lab1 success](/images/cs144_lab1_success.png&lt;/p&gt;
+&lt;p&gt;通过的话会得到类似字样：&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;100% tests passed, 0 tests failed out of 16
+
+Total Test time (real) =   0.66 sec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;下一个实验：&lt;a href=&quot;/cs144/2021/07/03/cs144-lab-2/&quot;&gt;Lab 2&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sun, 20 Jun 2021 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/cs144/2021/06/20/CS144-Lab-1.zh/</link>
-        <guid isPermaLink="true">http://localhost:4000/cs144/2021/06/20/CS144-Lab-1.zh/</guid>
+        <link>http://localhost:4000/cs144/2021/06/20/cs144-lab-1/</link>
+        <guid isPermaLink="true">http://localhost:4000/cs144/2021/06/20/cs144-lab-1/</guid>
         
         <category>CS144</category>
         
@@ -290,7 +447,7 @@ $ make check_lab0
     
       <item>
         <title>CS144 Lab 0</title>
-        <description>&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 的实验环境配置以及 Lab 0 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。&lt;/p&gt;
+        <description>&lt;p&gt;这篇文章会讲解 &lt;a href=&quot;https://cs144.github.io/&quot;&gt;CS144&lt;/a&gt; 的实验环境配置以及 Lab 0 的思路和代码。&lt;/p&gt;
 
 &lt;h1 id=&quot;环境配置&quot;&gt;环境配置&lt;/h1&gt;
 
@@ -340,10 +497,10 @@ $ make check_lab0
 &lt;p&gt;除了 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;buf&lt;/code&gt; 之外我还用了几个变量来储存一些信息。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int MAX_CAPACITY&lt;/code&gt; 用来设定最大容量&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int REMAIN_CAPACITY&lt;/code&gt; 用来记录剩余容量&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int _byte_written&lt;/code&gt; 用来记录一共写入的字符数，注意这个是包括读取后，现在不在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;buf&lt;/code&gt; 里的字符数的，是历史写入的总和&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;int _byte_read&lt;/code&gt; 用来记录一共读取的字符数&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;size_t MAX_CAPACITY&lt;/code&gt; 用来设定最大容量&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;size_t REMAIN_CAPACITY&lt;/code&gt; 用来记录剩余容量&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;size_t _byte_written&lt;/code&gt; 用来记录一共写入的字符数，注意这个是包括读取后，现在不在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;buf&lt;/code&gt; 里的字符数的，是历史写入的总和&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;size_t _byte_read&lt;/code&gt; 用来记录一共读取的字符数&lt;/li&gt;
   &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bool _input_ended&lt;/code&gt; 用来记录是否已经输入完成了&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -355,7 +512,7 @@ $ make check_lab0
 }
 
 size_t ByteStream::write(const string &amp;amp;data) {
-    int byteCount = 0;
+    size_t byteCount = 0;
     for (auto &amp;amp;&amp;amp;c : data) {
         if (REMAIN_CAPACITY == 0) {
             set_error();
@@ -404,7 +561,7 @@ bool ByteStream::eof() const {
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;基本上还是比较直白的，不需要太多介绍。
-实现完之后可以通过以下指令来测试自己的代码。&lt;/p&gt;
+实现完之后可以在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;build&lt;/code&gt; 目录下通过以下命令来编译并测试自己的代码：&lt;/p&gt;
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ CXX=g++-8 cmake ..
 $ make format
@@ -412,14 +569,18 @@ $ make -j4
 $ make check_lab0
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;如果通过的话可以得到类似的输出。
-&lt;img src=&quot;/images/cs144_lab0_success.png&quot; alt=&quot;lab0 success&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;通过的话会得到类似字样：&lt;/p&gt;
 
-&lt;p&gt;下一个实验：&lt;a href=&quot;(/cs144/2021/06/20/CS144-Lab-1.zh/)&quot;&gt;Lab 1&lt;/a&gt;&lt;/p&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   1.36 sec
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;下一个实验：&lt;a href=&quot;/cs144/2021/06/20/cs144-lab-1/&quot;&gt;Lab 1&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 29 May 2021 00:00:00 +0900</pubDate>
-        <link>http://localhost:4000/cs144/2021/05/29/CS144-Lab-0.zh/</link>
-        <guid isPermaLink="true">http://localhost:4000/cs144/2021/05/29/CS144-Lab-0.zh/</guid>
+        <link>http://localhost:4000/cs144/2021/05/29/cs144-lab-0/</link>
+        <guid isPermaLink="true">http://localhost:4000/cs144/2021/05/29/cs144-lab-0/</guid>
         
         <category>CS144</category>
         

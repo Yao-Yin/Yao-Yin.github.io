@@ -14,24 +14,12 @@
 <link rel="stylesheet" href="/css/highlightjs.piperita.css">
 
 <!-- Favicons generated at http://realfavicongenerator.net/ -->
-<link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-touch-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/favicons/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/favicons/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/favicons/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/favicons/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/favicons/apple-touch-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon-180x180.png">
-<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicons/android-chrome-192x192.png" sizes="192x192">
-<link rel="icon" type="image/png" href="/favicons/favicon-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
-<link rel="manifest" href="/favicons/manifest.json">
-<link rel="shortcut icon" href="/favicons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+<link rel="manifest" href="/favicons/site.webmanifest">
+<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
 <meta name="msapplication-TileColor" content="#da532c">
-<meta name="msapplication-TileImage" content="/favicons/mstile-144x144.png">
-<meta name="msapplication-config" content="/favicons/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
 
 
@@ -119,13 +107,13 @@
 
         
 
-        <span itemprop="articleBody"><p>上一个实验：<a href="(/cs144/2021/05/29/CS144-Lab-0.zh/)">Lab 0</a></p>
+        <span itemprop="articleBody"><p>上一个实验：<a href="/cs144/2021/05/29/cs144-lab-0/">Lab 0</a></p>
 
-<p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 在 vscode 上的 GDB 配置以及 Lab 1 的思路和代码，感谢开这门课的教授们和其他工作人员们的开源精神。</p>
+<p>这篇文章会讲解 <a href="https://cs144.github.io/">CS144</a> 在 vscode 上的 GDB 配置以及 Lab 1 的思路和代码。</p>
 
 <h1 id="gdb-配置">GDB 配置</h1>
 
-<p>在 Lab 0 里我们不需要使用 GDB debug，但是在 Lab 1 里我们需要，这里是我配置 GDB 的办法，来源互联网。首先将 Lab 0 的分支代码 merge 到 Lab 1 的对应分支里。然后当前 <code class="language-plaintext highlighter-rouge">sponge</code> 文件夹内，新建一个名为 <code class="language-plaintext highlighter-rouge">.vscode</code> 的文件夹，其中里面有四个 json 文件，分别是：</p>
+<p>在 Lab 0 里我们不需要使用 GDB debug，但是在 Lab 1 里我们需要，这里是我配置 GDB 的办法，来源<a href="https://segmentfault.com/a/1190000039087458">wine99 的博客</a>，结合自己的系统情况修改了一下。首先将 Lab 0 的分支代码 merge 到 Lab 1 的对应分支里。然后当前 <code class="language-plaintext highlighter-rouge">sponge</code> 文件夹内，新建一个名为 <code class="language-plaintext highlighter-rouge">.vscode</code> 的文件夹，其中里面有四个 json 文件，分别是：</p>
 
 <p>c_cpp_properties:</p>
 
@@ -134,7 +122,8 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/libsponge/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++-8",
@@ -283,41 +272,40 @@
 
 <p><strong>Q1：<code class="language-plaintext highlighter-rouge">unassembled bytes</code> 是什么？</strong></p>
 
-<p>A：是还未传递但是要传递给ByteStream的储存在StreamReassembler的字符数，其中如果不同的字符串有重叠部分的话，重叠部分只算一次；</p>
+<p>A：是还未传递但是要传递给 ByteStream 的储存在 StreamReassembler 的字符数，其中如果不同的字符串有重叠部分的话，重叠部分只算一次；</p>
 
-<p>举个例子，假设我们有两个字符串，一个是<code class="language-plaintext highlighter-rouge">Happy</code>，它的 index 是0，另一个是<code class="language-plaintext highlighter-rouge">py anniversary</code>，它的 index 是3，那么可想而知，整个算下来应该是<code class="language-plaintext highlighter-rouge">Happy anniversary</code>，此时<code class="language-plaintext highlighter-rouge">unassembled bytes</code>值为17。</p>
+<p>举个例子，假设我们有两个字符串，一个是 <code class="language-plaintext highlighter-rouge">Happy</code>，它的 index 是 0，另一个是 <code class="language-plaintext highlighter-rouge">py anniversary</code>，它的 index 是 3，那么可想而知，整个算下来应该是 <code class="language-plaintext highlighter-rouge">Happy anniversary</code>，此时 <code class="language-plaintext highlighter-rouge">unassembled bytes</code> 值为17。</p>
 
-<p>再举个例子，假设我们还是有两个字符串，一个是<code class="language-plaintext highlighter-rouge">Ha</code>，它的 index 是0，另一个是<code class="language-plaintext highlighter-rouge">y anniversary</code>, 它的 index 是3，此时的<code class="language-plaintext highlighter-rouge">unassembled bytes</code>值为15，因为整个算下来是<code class="language-plaintext highlighter-rouge">Ha??y anniversary</code>，我们不知道也没有存<code class="language-plaintext highlighter-rouge">??</code>位置的字符，所以这两个位置是不计数的。</p>
+<p>再举个例子，假设我们还是有两个字符串，一个是 <code class="language-plaintext highlighter-rouge">Ha</code>，它的 index 是 0，另一个是 <code class="language-plaintext highlighter-rouge">y anniversary</code>, 它的 index 是 3，此时的 <code class="language-plaintext highlighter-rouge">unassembled bytes</code> 值为 15，因为整个算下来是 <code class="language-plaintext highlighter-rouge">Ha??y anniversary</code>，我们不知道也没有存 <code class="language-plaintext highlighter-rouge">??</code> 位置的字符，所以这两个位置是不计数的。</p>
 
 <p><strong>Q2：<code class="language-plaintext highlighter-rouge">capacity</code> 是对什么容量的限制？</strong></p>
 
 <p>A：文档里的图解释的挺清楚的，我这里再复述一遍，是 <code class="language-plaintext highlighter-rouge">StreamReassembler</code> 里储存的 index 最大的字符的 index 减去在 <code class="language-plaintext highlighter-rouge">ByteStream</code> 里还没有被读取的 index 最小的字符的 index 的上限加一，说起来有点弯弯绕，结合下面这个例子会比较好。</p>
 
-<p>假设 <code class="language-plaintext highlighter-rouge">ByteStream</code> 里还未读取的字符是<code class="language-plaintext highlighter-rouge">Happy</code>，<code class="language-plaintext highlighter-rouge">StreamReassembler</code> 里只有一个字符串，<code class="language-plaintext highlighter-rouge">ver</code>，它的index 是10，那么此时它占据的容量是13，因为组合到一起，是<code class="language-plaintext highlighter-rouge">Happy?????ver</code>，尽管我们不知道<code class="language-plaintext highlighter-rouge">?????</code>的内容，但是我们要为之预留空间。推广一下，如果读取的字符串有一部分超过了我们能接受的最大容量，即使我们有足够的内存，也要舍弃它，因为超出了<code class="language-plaintext highlighter-rouge">capacity</code>的限制。</p>
+<p>假设 <code class="language-plaintext highlighter-rouge">ByteStream</code> 里还未读取的字符是 <code class="language-plaintext highlighter-rouge">Happy</code>，<code class="language-plaintext highlighter-rouge">StreamReassembler</code> 里只有一个字符串，<code class="language-plaintext highlighter-rouge">ver</code>，它的index 是 10，那么此时它占据的容量是 13，因为组合到一起，是 <code class="language-plaintext highlighter-rouge">Happy?????ver</code>，尽管我们不知道 <code class="language-plaintext highlighter-rouge">?????</code> 的内容，但是我们要为之预留空间。推广一下，如果读取的字符串有一部分超过了我们能接受的最大容量，即使我们有足够的内存，也要舍弃它，因为超出了 <code class="language-plaintext highlighter-rouge">capacity</code> 的限制。</p>
 
 <h2 id="design-the-core-data-structures">Design the core data structures</h2>
 
-<p>就这个 Lab 来讲，我们需要一个数据结构来维护没有读取的字符串，并且这些字符串是有序的（index），其实我一开始的想法是用堆，完成并 debug 后过了绝大部分的测试例，只有关于<code class="language-plaintext highlighter-rouge">unassembled bytes</code>的测试有问题，仔细研究定义（如上）后，决定推倒重新写。</p>
+<p>就这个 Lab 来讲，我们需要一个数据结构来维护没有读取的字符串，并且这些字符串是有序的（index），其实我一开始的想法是用堆，完成并 debug 后过了绝大部分的测试例，只有关于 <code class="language-plaintext highlighter-rouge">unassembled bytes</code> 的测试有问题，仔细研究定义（如上）后，决定推倒重新写。</p>
 
-<p>我们需要一个容器，可以容纳来自同一个字节流的字符串，并且我们需要跟踪字符数目，权衡之后我选择用<code class="language-plaintext highlighter-rouge">std::deque&lt;char&gt; _unassembled_bytes</code>来维护所有未传输给<code class="language-plaintext highlighter-rouge">ByteStream</code>的字符。如果这个队列空间不够存下下一个字符串的话，我们就扩大它，在整体不超过<code class="language-plaintext highlighter-rouge">capacity</code>的限制下存下尽量多的字符。这里问题来了，我们还需要思考，这个队列里存放的字符是不是已经读取的字符，比如我们读了<code class="language-plaintext highlighter-rouge">Happy?????ver</code>，这些<code class="language-plaintext highlighter-rouge">?</code>要如何表示，一开始我的想法是用<code class="language-plaintext highlighter-rouge">'\0'</code>表示，后来觉得如果字节流里有<code class="language-plaintext highlighter-rouge">'\0'</code>就不行，因此选用了另一个<code class="language-plaintext highlighter-rouge">std::deque&lt;bool&gt; _pos_checker</code>来记录<code class="language-plaintext highlighter-rouge">_unassembled_bytes</code>对应位置的字节是否是已经读取的字符，他们被同步更新，并且<code class="language-plaintext highlighter-rouge">_pos_checker</code>里<code class="language-plaintext highlighter-rouge">true</code>的数量就是<code class="language-plaintext highlighter-rouge">unassembled bytes</code>的数值。</p>
+<p>我们需要一个容器，可以容纳来自同一个字节流的字符串，并且我们需要跟踪字符数目，权衡之后我选择用 <code class="language-plaintext highlighter-rouge">std::deque&lt;char&gt; _unassembled_bytes</code> 来维护所有未传输给 <code class="language-plaintext highlighter-rouge">ByteStream</code> 的字符。如果这个队列空间不够存下下一个字符串的话，我们就扩大它，在整体不超过 <code class="language-plaintext highlighter-rouge">capacity</code> 的限制下存下尽量多的字符。这里问题来了，我们还需要思考，这个队列里存放的字符是不是已经读取的字符，比如我们读了 <code class="language-plaintext highlighter-rouge">Happy?????ver</code>，这些 <code class="language-plaintext highlighter-rouge">?</code> 要如何表示，一开始我的想法是用 <code class="language-plaintext highlighter-rouge">'\0'</code> 表示，后来觉得如果字节流里有 <code class="language-plaintext highlighter-rouge">'\0'</code> 就不行，因此选用了另一个 <code class="language-plaintext highlighter-rouge">std::deque&lt;bool&gt; _pos_checker</code>  来记录 <code class="language-plaintext highlighter-rouge">_unassembled_bytes</code> 对应位置的字节是否是已经读取的字符，他们被同步更新，并且 <code class="language-plaintext highlighter-rouge">_pos_checker</code> 里 <code class="language-plaintext highlighter-rouge">true</code> 的数量就是 <code class="language-plaintext highlighter-rouge">unassembled bytes</code> 的数值。</p>
 
 <p>以下是一个更新字符串的实现：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void StreamReassembler::update_unassembled_bytes(const string &amp;data, const size_t index) {
-    int start_data_idx = max(0, static_cast&lt;int&gt;(_idx - index));
-    _max_idx = max(_max_idx, static_cast&lt;int&gt;(index + data.size()));
-    int target_right_bound = min(index + data.size(), _capacity - _output.buffer_size() + _idx);
+    size_t start_data_idx = max(0, static_cast&lt;int&gt;(_idx) - static_cast&lt;int&gt;(index));
+    _max_idx = max(_max_idx, index + data.size());
+    size_t target_right_bound = min(index + data.size(), _capacity - _output.buffer_size() + _idx);
     if (target_right_bound &gt; _right_bound) {
         // no space, need to expand it
-        for (int i = 0; i &lt; target_right_bound - _right_bound; i++) {
+        for (size_t i = 0; i &lt; target_right_bound - _right_bound; i++) {
             _unassembled_bytes.push_back('\0');
             _pos_checker.push_back(false);
         }
         _right_bound = target_right_bound;
     }
-    int start_deque_idx = start_data_idx + index - _idx;
-    for (int i = 0; i + start_data_idx &lt; static_cast&lt;int&gt;(data.size()) &amp;&amp; i + start_deque_idx &lt; static_cast&lt;int&gt;(_pos_checker.size());
-         i++) {
+    size_t start_deque_idx = start_data_idx + index - _idx;
+    for (size_t i = 0; i + start_data_idx &lt; data.size() &amp;&amp; i + start_deque_idx &lt; _pos_checker.size(); i++) {
         _unassembled_bytes[i + start_deque_idx] = data[i + start_data_idx];
         if (!_pos_checker[i + start_deque_idx])
             _unassembled_bytes_cnt++;
@@ -330,15 +318,15 @@
 
 <p><code class="language-plaintext highlighter-rouge">_idx</code>：deque 里第一个位置对应的 index</p>
 
-<p><code class="language-plaintext highlighter-rouge">_unassembled_bytes_cnt</code>：<code class="language-plaintext highlighter-rouge">unassembled bytes</code>的数值</p>
+<p><code class="language-plaintext highlighter-rouge">_unassembled_bytes_cnt</code>：<code class="language-plaintext highlighter-rouge">unassembled bytes</code> 的数值</p>
 
 <p><code class="language-plaintext highlighter-rouge">_right_bound</code>：deque 能储存的字符的最大 index 加一（恰好不能储存的序数）</p>
 
-<p><code class="language-plaintext highlighter-rouge">_max_idx</code>：已经得知存在的字符串最后一个字符的最大 index 加一，用来确定是否已经结束输入。假设我们的<code class="language-plaintext highlighter-rouge">StreamReassembler</code>要读取<code class="language-plaintext highlighter-rouge">Happy anniversary</code>，且 index 为0，可是由于容量限制，我们只能读取<code class="language-plaintext highlighter-rouge">Happy anniversar</code>，由于最后一个<code class="language-plaintext highlighter-rouge">y</code>是存在的，我们只是暂时存不下，<code class="language-plaintext highlighter-rouge">_max_idx</code>就是这个<code class="language-plaintext highlighter-rouge">y</code>对应的的 index 值，这个可以用来判断是否要给<code class="language-plaintext highlighter-rouge">ByteStream</code>传递输入结束的信号，不太好理解的话可以先跳过，看后续代码就清楚了。</p>
+<p><code class="language-plaintext highlighter-rouge">_max_idx</code>：已经得知存在的字符串最后一个字符的最大 index 加一，用来确定是否已经结束输入。假设我们的 <code class="language-plaintext highlighter-rouge">StreamReassembler</code> 要读取 <code class="language-plaintext highlighter-rouge">Happy anniversary</code>，且 index 为 0，可是由于容量限制，我们只能读取 <code class="language-plaintext highlighter-rouge">Happy anniversar</code>，由于最后一个 <code class="language-plaintext highlighter-rouge">y</code> 是存在的，我们只是暂时存不下，<code class="language-plaintext highlighter-rouge">_max_idx</code> 就是这个 <code class="language-plaintext highlighter-rouge">y</code> 对应的的 index 值，这个可以用来判断是否要给 <code class="language-plaintext highlighter-rouge">ByteStream</code> 传递输入结束的信号，不太好理解的话可以先跳过，看后续代码就清楚了。</p>
 
 <h2 id="implement-the-whole-class">Implement the whole class</h2>
 
-<p>由于我们的逻辑是尽可能地将字符传递给<code class="language-plaintext highlighter-rouge">ByteStream _output</code>，所以每次更新后都要尽量<code class="language-plaintext highlighter-rouge">write</code>。</p>
+<p>由于我们的逻辑是尽可能地将字符传递给 <code class="language-plaintext highlighter-rouge">ByteStream _output</code>，所以每次更新后都要尽量 <code class="language-plaintext highlighter-rouge">write</code>。</p>
 
 <p>参考实现如下：</p>
 
@@ -370,18 +358,22 @@
 bool StreamReassembler::empty() const { return unassembled_bytes() == 0; }
 </code></pre></div></div>
 
-<h2 id="test-the-code">Test the code</h2>
-
-<p>我们在<code class="language-plaintext highlighter-rouge">build</code>目录下测试，和 Lab 0 类似：</p>
+<p>完成后我们在 <code class="language-plaintext highlighter-rouge">build</code> 目录下编译并测试，和之前类似：</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ CXX=g++-8 cmake ..
 $ make format
 $ make -j4
-$ make check_lab0
+$ make check_lab1
 </code></pre></div></div>
 
-<p>如果通过的话可以得到类似输出。
-![lab1 success](/images/cs144_lab1_success.png</p>
+<p>通过的话会得到类似字样：</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>100% tests passed, 0 tests failed out of 16
+
+Total Test time (real) =   0.66 sec
+</code></pre></div></div>
+
+<p>下一个实验：<a href="/cs144/2021/07/03/cs144-lab-2/">Lab 2</a></p>
 </span>
 
         
